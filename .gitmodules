@@ -1,0 +1,9 @@
+[submodule "config/i3/i3exit"]
+	path = config/i3/i3exit
+	url = git@github.com:djerveren/i3exit.git
+[submodule "config/i3/bumblebee-status"]
+	path = config/i3/bumblebee-status
+	url = git@github.com:tobi-wan-kenobi/bumblebee-status.git
+[submodule "source-picom/picom"]
+	path = source-picom/picom
+	url = git@github.com:yshui/picom.git
