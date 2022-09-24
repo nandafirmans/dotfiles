@@ -15,3 +15,4 @@ if there are any issue loading icons on polybar then run this command
 then run `fc-cache`
 please refer to this link for more information [https://github.com/polybar/polybar/wiki/Fonts#debugging-font-issues](https://github.com/polybar/polybar/wiki/Fonts#debugging-font-issues)
 
+### Install Siji Font

@@ -7,3 +7,6 @@
 [submodule "source-picom/picom"]
 	path = source-picom/picom
 	url = git@github.com:yshui/picom.git
+[submodule "config/polybar/siji"]
+	path = config/polybar/siji
+	url = git@github.com:stark/siji.git
