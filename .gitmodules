@@ -4,9 +4,15 @@
 [submodule "config/i3/bumblebee-status"]
 	path = config/i3/bumblebee-status
 	url = git@github.com:tobi-wan-kenobi/bumblebee-status.git
-[submodule "source-picom/picom"]
-	path = source-picom/picom
-	url = git@github.com:yshui/picom.git
 [submodule "config/polybar/siji"]
 	path = config/polybar/siji
 	url = git@github.com:stark/siji.git
+[submodule "sources/picom"]
+	path = sources/picom
+	url = git@github.com:yshui/picom.git
+[submodule "sources/rofi"]
+	path = sources/rofi
+	url = git@github.com:davatorium/rofi.git
+[submodule "sources/rofi-themes"]
+	path = sources/rofi-themes
+	url = git@github.com:adi1090x/rofi.git
