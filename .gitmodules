@@ -16,3 +16,9 @@
 [submodule "sources/rofi-themes"]
 	path = sources/rofi-themes
 	url = git@github.com:adi1090x/rofi.git
+[submodule "sources/networkmanager-dmenu"]
+	path = sources/networkmanager-dmenu
+	url = git@github.com:firecat53/networkmanager-dmenu.git
+[submodule "sources/polybar-themes"]
+	path = sources/polybar-themes
+	url = https://github.com/adi1090x/polybar-themes
