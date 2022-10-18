@@ -49,6 +49,7 @@ set tabstop=4
 set encoding=utf8
 set history=5000
 set clipboard=unnamedplus
+set guicursor=i:ver25
 
 set number
 
@@ -57,17 +58,6 @@ augroup numbertoggle
   autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &nu && mode() != "i" | set rnu   | endif
   autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu                  | set nornu | endif
 augroup END
-
-if has("autocmd")
-  au VimEnter,InsertLeave * silent execute '!echo -ne "\e[2 q"' | redraw!
-  au InsertEnter,InsertChange *
-\ if v:insertmode == 'i' | 
-\   silent execute '!echo -ne "\e[6 q"' | redraw! |
-\ elseif v:insertmode == 'r' |
-\   silent execute '!echo -ne "\e[4 q"' | redraw! |
-\ endif
-au VimLeave * silent execute '!echo -ne "\e[ q"' | redraw!
-endif
 
 " open NERDTree automatically
 autocmd StdinReadPre * let s:std_in=1
@@ -297,15 +287,16 @@ set laststatus=2
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
 let g:airline_statusline_ontop=0
-let g:airline_theme='molokai'
+let g:airline_theme='badwolf'
 
 let g:airline#extensions#tabline#formatter = 'default'
 
-nnoremap <M-d> :bn<cr>
-nnoremap <M-a> :bp<cr>
+nnoremap <M-l> :bn<cr>
+nnoremap <M-h> :bp<cr>
 nnoremap <c-x> :bp \|bd #<cr>
 nnoremap <M-w> :bw!<cr>
 nnoremap <M-Q> :qa<cr>
+xnoremap <leader>p "_dP
 
 let g:ale_completion_enabled = 0
 let g:ale_linters = {'python': ['flake8', 'pylint'], 'javascript': ['eslint']}
