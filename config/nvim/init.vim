@@ -10,7 +10,9 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'ryanoasis/vim-devicons'
 Plug 'airblade/vim-gitgutter'
-Plug 'ctrlpvim/ctrlp.vim' " fuzzy find files
+Plug 'jreybert/vimagit'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-rhubarb'
 Plug 'scrooloose/nerdcommenter'
 Plug 'prettier/vim-prettier', { 'do': 'yarn install' }"
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
@@ -25,7 +27,8 @@ Plug 'HerringtonDarkholme/yats.vim' " TS Syntax
 Plug 'tomasiser/vim-code-dark'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' }
-Plug 'tpope/vim-fugitive'
+Plug 'pseewald/vim-anyfold'
+Plug 'wellle/context.vim'
 
 " Initialize plugin system
 call plug#end()
@@ -49,8 +52,6 @@ set tabstop=4
 set encoding=utf8
 set history=5000
 set clipboard=unnamedplus
-set guicursor=i:ver25
-
 set number
 
 augroup numbertoggle
@@ -129,8 +130,7 @@ imap <S-Right> <Esc>v<Right>
 " imap <C-v> <Esc>pi
 
 set cindent
-" colorscheme codedark
-colorscheme molokayo
+colorscheme codedark
 
 " sync open file with NERDTree
 " Check if NERDTree is open or active
@@ -283,6 +283,7 @@ nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>i
 
+set guicursor=i:ver25
 set laststatus=2
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
@@ -367,7 +368,6 @@ endfunction
 
 " === START TELESCOPE
 
-" Telescope
 nnoremap <leader>ff <cmd>Telescope find_files<cr>
 nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
