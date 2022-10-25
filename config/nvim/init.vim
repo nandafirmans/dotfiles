@@ -300,6 +300,72 @@ xnoremap <leader>p "_dP
 
 let g:ale_completion_enabled = 0
 let g:ale_linters = {'python': ['flake8', 'pylint'], 'javascript': ['eslint']}
+let g:context_enabled = 1
+
+" === START GIT
+
+" Use fontawesome icons as signs
+let g:gitgutter_sign_added = '+'
+let g:gitgutter_sign_modified = '>'
+let g:gitgutter_sign_removed = '-'
+let g:gitgutter_sign_removed_first_line = '^'
+let g:gitgutter_sign_modified_removed = '<'
+
+let g:gitgutter_override_sign_column_highlight = 1
+highlight SignColumn guibg=bg
+highlight SignColumn ctermbg=bg
+
+" Update sign column every quarter second
+set updatetime=250
+
+" Jump between hunks
+nmap <Leader>gn <Plug>(GitGutterNextHunk)  " git next
+nmap <Leader>gp <Plug>(GitGutterPrevHunk)  " git previous
+
+" Hunk-add and hunk-revert for chunk staging
+nmap <Leader>ga <Plug>(GitGutterStageHunk)  " git add (chunk)
+nmap <Leader>gu <Plug>(GitGutterUndoHunk)   " git undo (chunk)
+
+" Open vimagit pane
+nnoremap <Leader>gs :Magit<CR>       " git status
+
+" Show commits for every source line
+nnoremap <Leader>gb :Gblame<CR>  " git blame
+
+" Add the entire file to the staging area
+nnoremap <Leader>gaf :Gw<CR>      " git add file
+
+" === END GIT
+
+" === START FOLDING
+
+set foldmethod=indent   
+set foldnestmax=10
+set nofoldenable
+set foldlevel=2
+
+filetype plugin indent on 
+syntax on
+
+" activate anyfold by default
+augroup anyfold
+    autocmd!
+    autocmd Filetype js,jsx,ts,tsx AnyFoldActivate
+augroup END
+
+" disable anyfold for large files
+let g:LargeFile = 1000000 " file is large if size greater than 1MB
+autocmd BufReadPre,BufRead * let f=getfsize(expand("<afile>")) | if f > g:LargeFile || f == -2 | call LargeFile() | endif
+function LargeFile()
+    augroup anyfold
+        autocmd! " remove AnyFoldActivate
+        autocmd Filetype  js,jsx,ts,tsx setlocal foldmethod=indent " fall back to indent folding
+    augroup END
+endfunction
+
+" === END FOLDING
+
+" === START TELESCOPE
 
 " Telescope
 nnoremap <leader>ff <cmd>Telescope find_files<cr>
