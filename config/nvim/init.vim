@@ -28,7 +28,6 @@ Plug 'tomasiser/vim-code-dark'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' }
 Plug 'pseewald/vim-anyfold'
-Plug 'wellle/context.vim'
 
 " Initialize plugin system
 call plug#end()
@@ -289,19 +288,18 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
 let g:airline_statusline_ontop=0
 let g:airline_theme='badwolf'
-
+let g:airline_section_y = '%{strftime("%H:%M")}'
 let g:airline#extensions#tabline#formatter = 'default'
 
 nnoremap <M-l> :bn<cr>
 nnoremap <M-h> :bp<cr>
 nnoremap <c-x> :bp \|bd #<cr>
 nnoremap <M-w> :bw!<cr>
-nnoremap <M-Q> :qa<cr>
+nnoremap <leader>qq :qa<cr>
 xnoremap <leader>p "_dP
 
 let g:ale_completion_enabled = 0
 let g:ale_linters = {'python': ['flake8', 'pylint'], 'javascript': ['eslint']}
-let g:context_enabled = 1
 
 " === START GIT
 
@@ -326,15 +324,10 @@ nmap <Leader>gp <Plug>(GitGutterPrevHunk)  " git previous
 " Hunk-add and hunk-revert for chunk staging
 nmap <Leader>ga <Plug>(GitGutterStageHunk)  " git add (chunk)
 nmap <Leader>gu <Plug>(GitGutterUndoHunk)   " git undo (chunk)
+nnoremap <Leader>gaf :Gw<CR>      " git add file
 
 " Open vimagit pane
 nnoremap <Leader>gs :Magit<CR>       " git status
-
-" Show commits for every source line
-nnoremap <Leader>gb :Gblame<CR>  " git blame
-
-" Add the entire file to the staging area
-nnoremap <Leader>gaf :Gw<CR>      " git add file
 
 " === END GIT
 

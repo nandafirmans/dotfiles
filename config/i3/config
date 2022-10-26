@@ -58,10 +58,10 @@ bindsym $mod+Shift+q kill
 # bindcode $mod+40 exec --no-startup-id i3-dmenu-desktop
 
 # change focus
-# bindsym $mod+j focus left
-#  bindsym $mod+k focus down
-# bindsym $mod+l focus up
-# bindsym $mod+semicolon focus right
+bindsym $mod+$alt+h focus left
+bindsym $mod+$alt+j focus down
+bindsym $mod+$alt+k focus up
+bindsym $mod+$alt+l focus right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
@@ -195,7 +195,7 @@ client.background       #F8F8F2
 # finds out, if available)
 # bar {
 #     status_command ~/.config/i3/bumblebee-status/bumblebee-status \
-# 			-m cpu memory battery time brightness dunstctl \
+# 			-m title cpu memory battery time brightness dunstctl \
 # 			pasink pasource \
 # 			-p time.format="%H:%M" memory.format="{used}"  \
 # 			-t onedark-powerline
@@ -217,31 +217,33 @@ client.background       #F8F8F2
 bindsym $mod+l workspace next
 bindsym $mod+h workspace prev
 
-bindsym $mod+$alt+l exec i3lock -i ~/.i3/background.jpg
+bindsym $mod+Control+l exec i3lock -i ~/.i3/background.jpg
 bindsym $mod+Shift+p exec ~/.config/polybar/colorblocks/scripts/powermenu.sh
 bindsym $mod+Shift+e exec --no-startup-id nautilus .
 bindsym $mod+Shift+x exec ~/.config/rofi/launchers/type-1/launcher-run.sh
 bindsym $alt+Tab exec ~/.config/rofi/launchers/type-1/launcher-window.sh
-bindsym $mod+space exec ~/.config/polybar/colorblocks/scripts/launcher.sh
 
+bindsym $mod+space exec ~/.config/polybar/colorblocks/scripts/launcher.sh
 bindsym $mod+Return exec kitty
 bindsym $mod+Shift+Return exec google-chrome-stable --password-store=gnome
 bindsym $mod+Shift+s exec flameshot gui
-bindsym $mod+Shift+f exec nautilus
+bindsym $mod+$alt+1 exec xrandr --output eDP-1 --primary --mode 2880x1920 --rate 60.28 --scale 0.5x0.5
+bindsym $mod+$alt+2 exec xrandr --output DP-1 --mode 1920x1080 --rate 60.00 --left-of eDP-1
+bindsym $mod+$alt+3 exec xrandr --output DP-1 --mode 1920x1080 --rate 60.00 --above eDP-1
 bindsym $mod+$alt+w exec feh --bg-fill ~/.i3/background.jpg 
 
-# smart_gaps on
 gaps inner 8
 for_window [class="^.*"] border pixel 0
 
 exec --no-startup-id dunst
-exec --no-startup-id ~/.config/i3/i3-battery-popup/i3-battery-popup -n -D -L 20 -l 10
 exec --no-startup-id flameshot
+exec /home/nandafirmans/.config/polybar/launch.sh --colorblocks
+exec --no-startup-id ~/.config/i3/i3-battery-popup/i3-battery-popup -n -D -L 20 -l 10
 exec --no-startup-id /usr/bin/gnome-keyring-daemon --start --components=secrets
-exec xrandr --output eDP-1 --primary --mode 2880x1920 --scale 0.5x0.5 --rate 60.28
 exec --no-startup-id /usr/libexec/gsd-xsettings
+exec xrandr --output eDP-1 --primary --mode 2880x1920 --scale 0.5x0.5 --rate 60.28
 
 exec_always feh --bg-fill ~/.i3/background.jpg 
-exec_always ~/.config/polybar/colorblocks/scripts/pywal.sh ~/.i3/background.jpg  
-exec_always --no-startup-id ~/.config/polybar/launch.sh --colorblocks
-exec_always --no-startup-id picom --config ~/.config/picom/picom.conf
+exec_always --no-startup-id picom --config ~/.config/picom.conf
+exec_always --no-startup-id /home/nandafirmans/.config/polybar/launch.sh --colorblocks
+# exec_always ~/.config/polybar/colorblocks/scripts/pywal.sh ~/.i3/background.jpg 
