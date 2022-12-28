@@ -22,3 +22,6 @@
 [submodule "sources/polybar-themes"]
 	path = sources/polybar-themes
 	url = https://github.com/adi1090x/polybar-themes
+[submodule "sources/i3lock-color"]
+	path = sources/i3lock-color
+	url = https://github.com/Raymo111/i3lock-color
