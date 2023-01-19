@@ -28,6 +28,8 @@ Plug 'tomasiser/vim-code-dark'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' }
 Plug 'pseewald/vim-anyfold'
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'darrikonn/vim-gofmt', { 'do': ':GoUpdateBinaries' }
 
 " Initialize plugin system
 call plug#end()
@@ -93,8 +95,15 @@ command! -nargs=0 EslintAutofix :CocCommand eslint.executeAutofix
 
 " Prettier
 function! FormatCode()
-    Prettier 
-    EslintAutofix
+    let ftype = &filetype
+
+    if ftype == "js" || ftype == "jsx" || ftype == "json" || ftype == "ts" || ftype == "tsx" || ftype == "css" || ftype == "scss" || ftype == "less"
+        Prettier 
+        EslintAutofix
+    elseif ftype == "go"
+        GoFmt
+        GoImports
+    endif
 endfunction
 
 nmap <A-F> :call FormatCode()<cr>
