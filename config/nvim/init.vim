@@ -304,9 +304,11 @@ let g:airline_statusline_ontop=0
 " let g:airline_theme='powerlineish'
 let g:airline_theme='deus'
 let g:airline_section_y = '%{strftime("%H:%M")}'
-let g:airline#extensions#tabline#formatter = 'default'
+let g:airline#extensions#tabline#formatter = 'unique_tail'
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
+let g:airline_left_sep = "\uE0B8"
+let g:airline_right_sep = "\uE0BA"
 
 " next prev tab
 nnoremap <M-a> :bp<cr>
