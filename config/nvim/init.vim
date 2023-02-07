@@ -30,6 +30,9 @@ Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' }
 Plug 'pseewald/vim-anyfold'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'darrikonn/vim-gofmt', { 'do': ':GoUpdateBinaries' }
+Plug 'tveskag/nvim-blame-line'
+Plug 'rmagatti/auto-session'
+Plug 'rmagatti/session-lens'
 
 " Initialize plugin system
 call plug#end()
@@ -52,9 +55,9 @@ set shiftwidth=2
 set tabstop=4
 set encoding=utf8
 set history=5000
-set clipboard=unnamedplus
-set number
+set clipboard+=unnamedplus
 
+set number
 augroup numbertoggle
   autocmd!
   autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &nu && mode() != "i" | set rnu   | endif
@@ -63,7 +66,8 @@ augroup END
 
 " open NERDTree automatically
 autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * NERDTree
+autocmd vimenter * NERDTree
+autocmd vimenter * NERDTreeToggle
 
 let g:NERDTreeGitStatusWithFlags = 1
 "let g:WebDevIconsUnicodeDecorateFolderNodes = 1
@@ -138,7 +142,8 @@ imap <S-Right> <Esc>v<Right>
 " imap <C-v> <Esc>pi
 
 set cindent
-colorscheme codedark
+" colorscheme codedark
+colorscheme space-vim-dark
 
 " sync open file with NERDTree
 " Check if NERDTree is open or active
@@ -296,12 +301,17 @@ set laststatus=2
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
 let g:airline_statusline_ontop=0
-let g:airline_theme='badwolf'
+" let g:airline_theme='powerlineish'
+let g:airline_theme='deus'
 let g:airline_section_y = '%{strftime("%H:%M")}'
 let g:airline#extensions#tabline#formatter = 'default'
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#left_alt_sep = '|'
 
-nnoremap <M-l> :bn<cr>
-nnoremap <M-h> :bp<cr>
+" next prev tab
+nnoremap <M-a> :bp<cr>
+nnoremap <M-d> :bn<cr>
+
 nnoremap <c-x> :bp \|bd #<cr>
 nnoremap <M-w> :bw!<cr>
 nnoremap <leader>qq :qa<cr>
@@ -338,14 +348,22 @@ nnoremap <Leader>gaf :Gw<CR>      " git add file
 " Open vimagit pane
 nnoremap <Leader>gs :Magit<CR>       " git status
 
+" Git Blame Toggle
+nnoremap <silent> <Leader>b :ToggleBlameLine<CR>
+
+" init GitBlame on enter
+autocmd BufEnter * EnableBlameLine
+autocmd BufEnter * ToggleBlameLine
+
 " === END GIT
 
 " === START FOLDING
 
 set foldmethod=indent   
-set foldnestmax=10
-set nofoldenable
-set foldlevel=2
+set foldlevelstart=99
+" set foldnestmax=10
+" set nofoldenable
+" set foldlevel=2
 
 filetype plugin indent on 
 syntax on
@@ -375,10 +393,18 @@ nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 
+" auto session
+let g:auto_session_pre_save_cmds = ["tabdo NERDTreeClose"]
+set sessionoptions+=winpos,terminal,folds
+
 lua << EOF
 require('telescope').setup{
     defaults = { 
         file_ignore_patterns = {"node_modules"} 
     }
+}
+
+require("auto-session").setup{
+   auto_session_enable_last_session=true,
 }
 EOF
