@@ -1,4 +1,3 @@
-" Specify a directory for plugins
 call plug#begin('~/.vim/plugged')
 
 Plug 'dense-analysis/ale'
@@ -13,7 +12,6 @@ Plug 'airblade/vim-gitgutter'
 Plug 'jreybert/vimagit'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
-Plug 'scrooloose/nerdcommenter'
 Plug 'prettier/vim-prettier', { 'do': 'yarn install' }"
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 Plug 'christoomey/vim-tmux-navigator'
@@ -33,6 +31,10 @@ Plug 'darrikonn/vim-gofmt', { 'do': ':GoUpdateBinaries' }
 Plug 'tveskag/nvim-blame-line'
 Plug 'rmagatti/auto-session'
 Plug 'rmagatti/session-lens'
+Plug 'ap/vim-css-color'
+Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
+Plug 'sindrets/diffview.nvim'
+Plug 'preservim/nerdcommenter'
 
 " Initialize plugin system
 call plug#end()
@@ -301,7 +303,6 @@ set laststatus=2
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
 let g:airline_statusline_ontop=0
-" let g:airline_theme='powerlineish'
 let g:airline_theme='deus'
 let g:airline_section_y = '%{strftime("%H:%M")}'
 let g:airline#extensions#tabline#formatter = 'unique_tail'
@@ -357,6 +358,12 @@ nnoremap <silent> <Leader>b :ToggleBlameLine<CR>
 autocmd BufEnter * EnableBlameLine
 autocmd BufEnter * ToggleBlameLine
 
+" Open DiffView
+nnoremap <leader>dd <cmd>DiffviewOpen<cr>
+nnoremap <leader>dr <cmd>DiffviewRefresh<cr>
+nnoremap <leader>dh <cmd>DiffviewFileHistory %<cr>
+nnoremap <leader>dc <cmd>DiffviewClose<cr>
+
 " === END GIT
 
 " === START FOLDING
@@ -394,10 +401,24 @@ nnoremap <leader>ff <cmd>Telescope find_files<cr>
 nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+nnoremap <leader>fs <cmd>SearchSession<cr>
 
-" auto session
-let g:auto_session_pre_save_cmds = ["tabdo NERDTreeClose"]
+" === AUTO SESSION
+let g:auto_session_pre_save_cmds = ["tabdo NERDTreeClose", "tabdo DiffviewClose"]
 set sessionoptions+=winpos,terminal,folds
+
+" === STYLED COMPONENT SYNTAX
+autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart
+autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear
+
+
+" === NERDCommenter
+let g:NERDCustomDelimiters={
+\ 'javascript': { 'left': '//', 'right': '', 'leftAlt': '{/*', 'rightAlt': '*/}' },
+\}
+
+" === VIM CSS COLOR
+let g:cssColorVimDoNotMessMyUpdatetime = 1
 
 lua << EOF
 require('telescope').setup{
@@ -407,6 +428,5 @@ require('telescope').setup{
 }
 
 require("auto-session").setup{
-   auto_session_enable_last_session=true,
 }
 EOF
