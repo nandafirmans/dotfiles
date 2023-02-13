@@ -3,10 +3,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'dense-analysis/ale'
 Plug 'mattn/emmet-vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'scrooloose/nerdtree'
-Plug 'tsony-tsonev/nerdtree-git-plugin'
-Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+Plug 'dracula/vim'
 Plug 'ryanoasis/vim-devicons'
 Plug 'airblade/vim-gitgutter'
 Plug 'jreybert/vimagit'
@@ -35,14 +32,20 @@ Plug 'ap/vim-css-color'
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 Plug 'sindrets/diffview.nvim'
 Plug 'preservim/nerdcommenter'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+Plug 'nvim-tree/nvim-web-devicons'
+Plug 'nvim-tree/nvim-tree.lua'
+Plug 'romgrk/barbar.nvim'
 
 " Initialize plugin system
 call plug#end()
 
+nmap <C-n> :NvimTreeToggle<CR>
+autocmd vimenter * NvimTreeFindFile!
+autocmd vimenter * NvimTreeClose
+
 inoremap jk <ESC>
-nmap <C-n> :NERDTreeToggle<CR>
-vmap ++ <plug>NERDCommenterToggle
-nmap ++ <plug>NERDCommenterToggle
 nnoremap <SPACE> <Nop>
 let mapleader = "\<Space>"
 
@@ -53,11 +56,12 @@ set cursorline
 set expandtab
 set autoindent
 set smartindent
+set ignorecase
 set shiftwidth=2
 set tabstop=4
 set encoding=utf8
 set history=5000
-set clipboard+=unnamedplus
+set clipboard=unnamedplus
 
 set number
 augroup numbertoggle
@@ -66,38 +70,9 @@ augroup numbertoggle
   autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu                  | set nornu | endif
 augroup END
 
-" open NERDTree automatically
-autocmd StdinReadPre * let s:std_in=1
-autocmd vimenter * NERDTree
-autocmd vimenter * NERDTreeToggle
-
-let g:NERDTreeGitStatusWithFlags = 1
-"let g:WebDevIconsUnicodeDecorateFolderNodes = 1
-"let g:NERDTreeGitStatusNodeColorization = 1
-"let g:NERDTreeColorMapCustom = {
-    "\ "Staged"    : "#0ee375",  
-    "\ "Modified"  : "#d9bf91",  
-    "\ "Renamed"   : "#51C9FC",  
-    "\ "Untracked" : "#FCE77C",  
-    "\ "Unmerged"  : "#FC51E6",  
-    "\ "Dirty"     : "#FFBD61",  
-    "\ "Clean"     : "#87939A",   
-    "\ "Ignored"   : "#808080"   
-    "\ }                         
-
-
-let g:NERDTreeIgnore = ['^node_modules$']
-let NERDTreeShowHidden = 1
-
-" vim-prettier
-"let g:prettier#quickfix_enabled = 0
-"let g:prettier#quickfix_auto_focus = 0
 " prettier command for coc
 command! -nargs=0 Prettier :CocCommand prettier.formatFile
 command! -nargs=0 EslintAutofix :CocCommand eslint.executeAutofix
-" run prettier on save
-"let g:prettier#autoformat = 0
-"autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html PrettierAsync
 
 " Prettier
 function! FormatCode()
@@ -138,32 +113,8 @@ imap <S-Down> <Esc>v<Down>
 imap <S-Left> <Esc>v<Left>
 imap <S-Right> <Esc>v<Right>
 
-" vmap <C-c> y<Esc>i
-" vmap <C-x> d<Esc>i
-" map <C-v> pi
-" imap <C-v> <Esc>pi
-
 set cindent
-" colorscheme codedark
-colorscheme space-vim-dark
-
-" sync open file with NERDTree
-" Check if NERDTree is open or active
-function! IsNERDTreeOpen()        
-  return exists("t:NERDTreeBufName") && (bufwinnr(t:NERDTreeBufName) != -1)
-endfunction
-
-" Call NERDTreeFind iff NERDTree is active, current window contains a modifiable
-" file, and we're not in vimdiff
-function! SyncTree()
-  if &modifiable && IsNERDTreeOpen() && strlen(expand('%')) > 0 && !&diff
-    NERDTreeFind
-    wincmd p
-  endif
-endfunction
-
-" Highlight currently open buffer in NERDTree
-autocmd BufEnter * call SyncTree()
+colorscheme dracula
 
 " coc config
 let g:coc_global_extensions = [
@@ -300,10 +251,10 @@ nnoremap <silent> <space>p  :<C-u>CocListResume<CR>i
 
 set guicursor=i:ver25
 set laststatus=2
-let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#enabled = 0
 let g:airline_powerline_fonts = 1
 let g:airline_statusline_ontop=0
-let g:airline_theme='deus'
+let g:airline_theme='dracula'
 let g:airline_section_y = '%{strftime("%H:%M")}'
 let g:airline#extensions#tabline#formatter = 'unique_tail'
 let g:airline#extensions#tabline#left_sep = ' '
@@ -311,17 +262,53 @@ let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline_left_sep = "\uE0B8"
 let g:airline_right_sep = "\uE0BA"
 
-" next prev tab
-nnoremap <M-a> :bp<cr>
-nnoremap <M-d> :bn<cr>
-
 nnoremap <c-x> :bp \|bd #<cr>
-nnoremap <M-w> :bw!<cr>
 nnoremap <leader>qq :qa<cr>
 xnoremap <leader>p "_dP
 
 let g:ale_completion_enabled = 0
 let g:ale_linters = {'python': ['flake8', 'pylint'], 'javascript': ['eslint']}
+
+" === START BARBAR
+
+" Move to previous/next
+nnoremap <silent>    <A-a> <Cmd>BufferPrevious<CR>
+nnoremap <silent>    <A-d> <Cmd>BufferNext<CR>
+
+" Re-order to previous/next
+nnoremap <silent>    <A-A> <Cmd>BufferMovePrevious<CR>
+nnoremap <silent>    <A-D> <Cmd>BufferMoveNext<CR>
+
+" Goto buffer in position...
+nnoremap <silent>    <A-1> <Cmd>BufferGoto 1<CR>
+nnoremap <silent>    <A-2> <Cmd>BufferGoto 2<CR>
+nnoremap <silent>    <A-3> <Cmd>BufferGoto 3<CR>
+nnoremap <silent>    <A-4> <Cmd>BufferGoto 4<CR>
+nnoremap <silent>    <A-5> <Cmd>BufferGoto 5<CR>
+nnoremap <silent>    <A-6> <Cmd>BufferGoto 6<CR>
+nnoremap <silent>    <A-7> <Cmd>BufferGoto 7<CR>
+nnoremap <silent>    <A-8> <Cmd>BufferGoto 8<CR>
+nnoremap <silent>    <A-9> <Cmd>BufferGoto 9<CR>
+nnoremap <silent>    <A-0> <Cmd>BufferLast<CR>
+
+" Pin/unpin buffer
+nnoremap <silent>    <A-p> <Cmd>BufferPin<CR>
+
+" Close buffer
+nnoremap <silent>    <A-w> <Cmd>BufferClose<CR>
+
+
+" Magic buffer-picking mode
+nnoremap <silent> <C-p>    <Cmd>BufferPick<CR>
+nnoremap <silent> <C-p>    <Cmd>BufferPickDelete<CR>
+
+" Sort automatically by...
+nnoremap <silent> <Leader>bb <Cmd>BufferOrderByBufferNumber<CR>
+nnoremap <silent> <Leader>bd <Cmd>BufferOrderByDirectory<CR>
+nnoremap <silent> <Leader>bl <Cmd>BufferOrderByLanguage<CR>
+nnoremap <silent> <Leader>bw <Cmd>BufferOrderByWindowNumber<CR>
+
+" === END BARBAR
 
 " === START GIT
 
@@ -355,8 +342,8 @@ nnoremap <Leader>gs :Magit<CR>       " git status
 nnoremap <silent> <Leader>b :ToggleBlameLine<CR>
 
 " init GitBlame on enter
-autocmd BufEnter * EnableBlameLine
-autocmd BufEnter * ToggleBlameLine
+" autocmd BufEnter * EnableBlameLine
+let g:blameLineMessageWhenNotYetCommited = ''
 
 " Open DiffView
 nnoremap <leader>dd <cmd>DiffviewOpen<cr>
@@ -404,7 +391,7 @@ nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 nnoremap <leader>fs <cmd>SearchSession<cr>
 
 " === AUTO SESSION
-let g:auto_session_pre_save_cmds = ["tabdo NERDTreeClose", "tabdo DiffviewClose"]
+let g:auto_session_pre_save_cmds = ["tabdo NvimTreeClose",  "tabdo DiffviewClose"]
 set sessionoptions+=winpos,terminal,folds
 
 " === STYLED COMPONENT SYNTAX
@@ -421,12 +408,29 @@ let g:NERDCustomDelimiters={
 let g:cssColorVimDoNotMessMyUpdatetime = 1
 
 lua << EOF
+
+-- disable netrw at the very start of your init.lua (strongly advised)
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
+-- set termguicolors to enable highlight groups
+vim.opt.termguicolors = true
+
+require("nvim-tree").setup({
+    view = {
+      width = 50,
+    },
+    update_focused_file = {
+        enable = true,
+    },
+})
+
 require('telescope').setup{
     defaults = { 
         file_ignore_patterns = {"node_modules"} 
     }
 }
 
-require("auto-session").setup{
-}
+require("auto-session").setup{}
+
 EOF
