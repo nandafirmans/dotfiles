@@ -78,7 +78,8 @@ require('packer').startup(function(use)
   use 'tpope/vim-rhubarb'
   use 'lewis6991/gitsigns.nvim'
 
-  use 'navarasu/onedark.nvim' -- Theme inspired by Atom
+  use 'navarasu/onedark.nvim'
+  use 'dracula/vim'
   use 'nvim-lualine/lualine.nvim' -- Fancier statusline
   use 'lukas-reineke/indent-blankline.nvim' -- Add indentation guides even on blank lines
   use 'numToStr/Comment.nvim' -- "gc" to comment visual regions/lines
@@ -173,7 +174,7 @@ vim.wo.signcolumn = 'yes'
 
 -- Set colorscheme
 vim.o.termguicolors = true
-vim.cmd [[colorscheme onedark]]
+vim.cmd [[colorscheme dracula]]
 
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = 'menuone,noselect'
@@ -195,6 +196,12 @@ vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = tr
 
 -- Save File
 vim.keymap.set('n', '<C-s>', ':w!<CR>')
+
+-- Close Buffer
+vim.keymap.set('n', '<A-q>', ':q<CR>')
+
+-- Force Close Buffer
+vim.keymap.set('n', '<A-q>q', ':q!<CR>')
 
 -- Quit neovim
 vim.keymap.set('n', '<leader>qq', ':qa<CR>')
@@ -237,7 +244,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 -- See `:help lualine.txt`
 require('lualine').setup {
   options = {
-    theme = 'onedark',
+    theme = 'dracula',
   },
   -- sections = { lualine_c = { require('auto-session-library').current_session_name } }
 }
