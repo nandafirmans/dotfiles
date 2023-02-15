@@ -287,6 +287,7 @@ require("lualine").setup({
 		theme = "tokyonight-moon",
 		section_separators = { left = "", right = "" },
 		component_separators = { left = "", right = "" },
+		disabled_filetypes = { "packer", "NvimTree" },
 	},
 	sections = { lualine_c = { require("auto-session-library").current_session_name } },
 })
@@ -623,16 +624,30 @@ require("session-lens").setup({})
 vim.keymap.set("n", "<leader>ss", "<Cmd>SearchSession<CR>")
 
 -- NvimTree
+local nvim_tree_width = 40
+
+local toggle_nvim_tree = function()
+	local view = require("nvim-tree.view")
+	if view.is_visible() then
+		require("nvim-tree").toggle()
+		require("bufferline.state").offset = { text = "", width = 0 }
+	else
+		require("bufferline.state").offset = { text = "File Explorer", width = nvim_tree_width + 1 }
+		require("nvim-tree").toggle({ find_file = true })
+	end
+end
+
 require("nvim-tree").setup({
 	view = {
-		width = 50,
+		width = nvim_tree_width,
 	},
 	update_focused_file = {
 		enable = true,
 	},
 })
 
-vim.keymap.set("n", "<C-n>", ":NvimTreeToggle<CR>")
+-- vim.keymap.set("n", "<C-n>", ":NvimTreeToggle<CR>")
+vim.keymap.set("n", "<C-n>", toggle_nvim_tree)
 
 vim.api.nvim_create_autocmd("VimEnter", {
 	pattern = "*",
