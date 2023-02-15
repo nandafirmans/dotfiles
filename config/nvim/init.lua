@@ -32,6 +32,8 @@ require("packer").startup(function(use)
 		"hrsh7th/nvim-cmp",
 		requires = { "hrsh7th/cmp-nvim-lsp", "L3MON4D3/LuaSnip", "saadparwaiz1/cmp_luasnip" },
 	})
+	use({ "hrsh7th/cmp-path" })
+	use({ "hrsh7th/cmp-nvim-lsp" })
 
 	use({
 		-- Highlight, edit, and navigate code
@@ -86,7 +88,12 @@ require("packer").startup(function(use)
 		},
 	})
 
-	use({ "hrsh7th/cmp-nvim-lsp" })
+	-- Buffer Line
+	-- use({
+	-- 	"akinsho/bufferline.nvim",
+	-- 	tag = "v3.*",
+	-- 	requires = "nvim-tree/nvim-web-devicons",
+	-- })
 
 	-- Show hex color and rgb
 	use({ "norcalli/nvim-colorizer.lua" })
@@ -160,6 +167,7 @@ vim.o.tabstop = 4
 vim.o.encoding = "utf8"
 vim.o.history = 5000
 vim.o.hidden = true
+vim.o.swapfile = false
 vim.o.clipboard = "unnamedplus"
 
 -- Folding
@@ -204,7 +212,7 @@ vim.wo.signcolumn = "yes"
 
 -- Set colorscheme
 vim.o.termguicolors = true
-vim.cmd([[colorscheme catppuccin-mocha]])
+vim.cmd([[colorscheme tokyonight-moon]])
 
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = "menuone,noselect"
@@ -276,7 +284,9 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 -- See `:help lualine.txt`
 require("lualine").setup({
 	options = {
-		theme = "catppuccin-mocha",
+		theme = "tokyonight-moon",
+		section_separators = { left = "", right = "" },
+		component_separators = { left = "", right = "" },
 	},
 	sections = { lualine_c = { require("auto-session-library").current_session_name } },
 })
@@ -529,6 +539,8 @@ require("fidget").setup()
 -- nvim-cmp setup
 local cmp = require("cmp")
 local luasnip = require("luasnip")
+luasnip.filetype_extend("javascript", { "javascriptreact" })
+luasnip.filetype_extend("javascript", { "html" })
 
 cmp.setup({
 	snippet = {
@@ -566,6 +578,7 @@ cmp.setup({
 	sources = {
 		{ name = "nvim_lsp" },
 		{ name = "luasnip" },
+		{ name = "path" },
 	},
 })
 
@@ -575,8 +588,8 @@ null_ls.setup({
 	sources = {
 		null_ls.builtins.formatting.prettierd,
 		null_ls.builtins.code_actions.eslint,
-		null_ls.builtins.diagnostics.eslint,
-		null_ls.builtins.diagnostics.tsc,
+		-- null_ls.builtins.diagnostics.eslint,
+		-- null_ls.builtins.diagnostics.tsc,
 		-- null_ls.builtins.formatting.stylelint,
 		-- null_ls.builtins.diagnostics.stylelint,
 		-- null_ls.builtins.formatting.json_tool,
@@ -627,34 +640,33 @@ vim.api.nvim_create_autocmd("VimEnter", {
 })
 
 -- BarBar
-
-local barbarMapOpts = { noremap = true, silent = true }
+local baseKeymapsOpts = { noremap = true, silent = true }
 
 -- Move to previous/next
-vim.keymap.set("n", "<A-a>", "<Cmd>BufferPrevious<CR>", barbarMapOpts)
-vim.keymap.set("n", "<A-d>", "<Cmd>BufferNext<CR>", barbarMapOpts)
+vim.keymap.set("n", "<A-a>", "<Cmd>BufferPrevious<CR>", baseKeymapsOpts)
+vim.keymap.set("n", "<A-d>", "<Cmd>BufferNext<CR>", baseKeymapsOpts)
 
 -- Re-order to previous/next
-vim.keymap.set("n", "<A-A>", "<Cmd>BufferMovePrevious<CR>", barbarMapOpts)
-vim.keymap.set("n", "<A-D>", "<Cmd>BufferMoveNext<CR>", barbarMapOpts)
+vim.keymap.set("n", "<A-A>", "<Cmd>BufferMovePrevious<CR>", baseKeymapsOpts)
+vim.keymap.set("n", "<A-D>", "<Cmd>BufferMoveNext<CR>", baseKeymapsOpts)
 
 -- Goto buffer in position...
-vim.keymap.set("n", "<A-1>", "<Cmd>BufferGoto 1<CR>", barbarMapOpts)
-vim.keymap.set("n", "<A-2>", "<Cmd>BufferGoto 2<CR>", barbarMapOpts)
-vim.keymap.set("n", "<A-3>", "<Cmd>BufferGoto 3<CR>", barbarMapOpts)
-vim.keymap.set("n", "<A-4>", "<Cmd>BufferGoto 4<CR>", barbarMapOpts)
-vim.keymap.set("n", "<A-5>", "<Cmd>BufferGoto 5<CR>", barbarMapOpts)
-vim.keymap.set("n", "<A-6>", "<Cmd>BufferGoto 6<CR>", barbarMapOpts)
-vim.keymap.set("n", "<A-7>", "<Cmd>BufferGoto 7<CR>", barbarMapOpts)
-vim.keymap.set("n", "<A-8>", "<Cmd>BufferGoto 8<CR>", barbarMapOpts)
-vim.keymap.set("n", "<A-9>", "<Cmd>BufferGoto 9<CR>", barbarMapOpts)
-vim.keymap.set("n", "<A-0>", "<Cmd>BufferLast<CR>", barbarMapOpts)
+vim.keymap.set("n", "<A-1>", "<Cmd>BufferGoto 1<CR>", baseKeymapsOpts)
+vim.keymap.set("n", "<A-2>", "<Cmd>BufferGoto 2<CR>", baseKeymapsOpts)
+vim.keymap.set("n", "<A-3>", "<Cmd>BufferGoto 3<CR>", baseKeymapsOpts)
+vim.keymap.set("n", "<A-4>", "<Cmd>BufferGoto 4<CR>", baseKeymapsOpts)
+vim.keymap.set("n", "<A-5>", "<Cmd>BufferGoto 5<CR>", baseKeymapsOpts)
+vim.keymap.set("n", "<A-6>", "<Cmd>BufferGoto 6<CR>", baseKeymapsOpts)
+vim.keymap.set("n", "<A-7>", "<Cmd>BufferGoto 7<CR>", baseKeymapsOpts)
+vim.keymap.set("n", "<A-8>", "<Cmd>BufferGoto 8<CR>", baseKeymapsOpts)
+vim.keymap.set("n", "<A-9>", "<Cmd>BufferGoto 9<CR>", baseKeymapsOpts)
+vim.keymap.set("n", "<A-0>", "<Cmd>BufferLast<CR>", baseKeymapsOpts)
 
 -- Pin/unpin buffer
-vim.keymap.set("n", "<A-p>", "<Cmd>BufferPin<CR>", barbarMapOpts)
+vim.keymap.set("n", "<A-p>", "<Cmd>BufferPin<CR>", baseKeymapsOpts)
 
 -- Close buffer
-vim.keymap.set("n", "<A-w>", "<Cmd>BufferClose<CR>", barbarMapOpts)
+vim.keymap.set("n", "<A-w>", "<Cmd>BufferClose<CR>", baseKeymapsOpts)
 -- Wipeout buffer
 -- :BufferWipeout
 -- Close commands
@@ -665,22 +677,25 @@ vim.keymap.set("n", "<A-w>", "<Cmd>BufferClose<CR>", barbarMapOpts)
 -- :BufferCloseBuffersRight
 
 -- Magic buffer-picking mode
-vim.keymap.set("n", "<C-p>", "<Cmd>BufferPick<CR>", barbarMapOpts)
+vim.keymap.set("n", "<C-p>", "<Cmd>BufferPick<CR>", baseKeymapsOpts)
 
 -- Sort automatically by...
-vim.keymap.set("n", "<Space>bb", "<Cmd>BufferOrderByBufferNumber<CR>", barbarMapOpts)
-vim.keymap.set("n", "<Space>bd", "<Cmd>BufferOrderByDirectory<CR>", barbarMapOpts)
-vim.keymap.set("n", "<Space>bl", "<Cmd>BufferOrderByLanguage<CR>", barbarMapOpts)
-vim.keymap.set("n", "<Space>bw", "<Cmd>BufferOrderByWindowNumber<CR>", barbarMapOpts)
+vim.keymap.set("n", "<Space>bb", "<Cmd>BufferOrderByBufferNumber<CR>", baseKeymapsOpts)
+vim.keymap.set("n", "<Space>bd", "<Cmd>BufferOrderByDirectory<CR>", baseKeymapsOpts)
+vim.keymap.set("n", "<Space>bl", "<Cmd>BufferOrderByLanguage<CR>", baseKeymapsOpts)
+vim.keymap.set("n", "<Space>bw", "<Cmd>BufferOrderByWindowNumber<CR>", baseKeymapsOpts)
 
 -- Diffview
-vim.keymap.set("n", "<leader>dd", "<Cmd>DiffviewOpen<CR>")
-vim.keymap.set("n", "<leader>dr", "<Cmd>DiffviewRefresh<CR>")
-vim.keymap.set("n", "<leader>dh", "<Cmd>DiffviewFileHistory %<CR>")
-vim.keymap.set("n", "<leader>dc", "<Cmd>DiffviewClose<CR>")
+vim.keymap.set("n", "<leader>dd", "<Cmd>DiffviewOpen<CR>", baseKeymapsOpts)
+vim.keymap.set("n", "<leader>dr", "<Cmd>DiffviewRefresh<CR>", baseKeymapsOpts)
+vim.keymap.set("n", "<leader>dh", "<Cmd>DiffviewFileHistory %<CR>", baseKeymapsOpts)
+vim.keymap.set("n", "<leader>dc", "<Cmd>DiffviewClose<CR>", baseKeymapsOpts)
 
 -- Nvim Colorizer
 require("colorizer").setup()
+
+-- Buffer Line
+-- require("bufferline").setup()
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
