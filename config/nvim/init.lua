@@ -30,10 +30,23 @@ require("packer").startup(function(use)
 	use({
 		-- Autocompletion
 		"hrsh7th/nvim-cmp",
-		requires = { "hrsh7th/cmp-nvim-lsp", "L3MON4D3/LuaSnip", "saadparwaiz1/cmp_luasnip" },
+		requires = {
+			"hrsh7th/cmp-nvim-lsp",
+			"hrsh7th/cmp-path",
+			"hrsh7th/cmp-nvim-lsp",
+			"hrsh7th/cmp-buffer",
+
+			-- Snippet
+			"L3MON4D3/LuaSnip",
+			"saadparwaiz1/cmp_luasnip",
+			"rafamadriz/friendly-snippets",
+		},
 	})
-	use({ "hrsh7th/cmp-path" })
-	use({ "hrsh7th/cmp-nvim-lsp" })
+
+	use({
+		"dsznajder/vscode-es7-javascript-react-snippets",
+		run = "yarn install --frozen-lockfile && yarn compile",
+	})
 
 	use({
 		-- Highlight, edit, and navigate code
@@ -88,6 +101,12 @@ require("packer").startup(function(use)
 		},
 	})
 
+	-- Auto close tag
+	use({ "windwp/nvim-ts-autotag" })
+
+	-- Auto pair char
+	use({ "windwp/nvim-autopairs" })
+
 	-- Buffer Line
 	-- use({
 	-- 	"akinsho/bufferline.nvim",
@@ -119,6 +138,12 @@ require("packer").startup(function(use)
 
 	-- Fuzzy Finder Algorithm which requires local dependencies to be built. Only load if `make` is available
 	use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make", cond = vim.fn.executable("make") == 1 })
+
+	-- Telescope File Browser
+	use({
+		"nvim-telescope/telescope-file-browser.nvim",
+		requires = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
+	})
 
 	-- Add custom plugins to packer from ~/.config/nvim/lua/custom/plugins.lua
 	local has_plugins, plugins = pcall(require, "custom.plugins")
@@ -325,10 +350,17 @@ require("telescope").setup({
 			},
 		},
 	},
+	extensions = {
+		file_browser = {
+			theme = "dropdown",
+			hijack_netrw = true,
+		},
+	},
 })
 
 -- Enable telescope fzf native, if installes
 pcall(require("telescope").load_extension, "fzf")
+pcall(require("telescope").load_extension, "file_browser")
 
 -- See `:help telescope.builtin`
 vim.keymap.set("n", "<leader>?", require("telescope.builtin").oldfiles, { desc = "[?] Find recently opened files" })
@@ -346,6 +378,12 @@ vim.keymap.set("n", "<leader>fh", require("telescope.builtin").help_tags, { desc
 vim.keymap.set("n", "<leader>fw", require("telescope.builtin").grep_string, { desc = "[F]ind current [W]ord" })
 vim.keymap.set("n", "<leader>fg", require("telescope.builtin").live_grep, { desc = "[F]ind by [G]rep" })
 vim.keymap.set("n", "<leader>fd", require("telescope.builtin").diagnostics, { desc = "[F]ind [D]iagnostics" })
+vim.keymap.set(
+	"n",
+	"<leader>fb",
+	":Telescope file_browser path=%:p:h select_buffer=true<CR>",
+	{ desc = "[F]ile [B]rowser", noremap = true }
+)
 
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
@@ -373,6 +411,7 @@ require("nvim-treesitter.configs").setup({
 		"vue",
 	},
 	highlight = { enable = true },
+	autotag = { enable = true },
 	indent = { enable = true, disable = { "python" } },
 	incremental_selection = {
 		enable = true,
@@ -540,6 +579,9 @@ require("fidget").setup()
 -- nvim-cmp setup
 local cmp = require("cmp")
 local luasnip = require("luasnip")
+
+-- LuaSnip
+require("luasnip.loaders.from_vscode").lazy_load()
 luasnip.filetype_extend("javascript", { "javascriptreact" })
 luasnip.filetype_extend("javascript", { "html" })
 
@@ -580,6 +622,7 @@ cmp.setup({
 		{ name = "nvim_lsp" },
 		{ name = "luasnip" },
 		{ name = "path" },
+		{ name = "buffer" },
 	},
 })
 
@@ -611,6 +654,7 @@ require("lspconfig").tsserver.setup({
 	on_attach = function(client)
 		client.server_capabilities.documentFormattingProvider = false
 	end,
+	-- cmd = { "typescript-language-server", "--stdio" },
 })
 
 -- Eslint Fix All
@@ -711,6 +755,14 @@ require("colorizer").setup()
 
 -- Buffer Line
 -- require("bufferline").setup()
+
+-- Auto close tag
+require("nvim-ts-autotag").setup()
+
+-- Auto close char
+require("nvim-autopairs").setup({
+	disable_filetype = { "TelescopePrompt", "vim" },
+})
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
