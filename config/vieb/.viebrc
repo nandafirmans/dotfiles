@@ -1,0 +1,11 @@
+set adblocker=update
+set devtoolsposition=split
+set downloadmethod=confirm
+set useragent=%firefox
+set mintabwidth=100
+set permissioncamera=ask
+set permissiondisplaycapture=ask
+set permissionmediadevices=allow
+set permissionmicrophone=ask
+set permissionpersistentstorage=allow
+set search=https://google.com/search?q=%s
