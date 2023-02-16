@@ -67,6 +67,16 @@ require("packer").startup(function(use)
   })
 
   use({
+    "glepnir/lspsaga.nvim",
+    branch = "main",
+    requires = {
+      { "nvim-tree/nvim-web-devicons" },
+      --Please make sure you install markdown and markdown_inline parser
+      { "nvim-treesitter/nvim-treesitter" },
+    },
+  })
+
+  use({
     "nvim-tree/nvim-tree.lua",
     requires = {
       "nvim-tree/nvim-web-devicons", -- optional, for file icons
@@ -105,6 +115,9 @@ require("packer").startup(function(use)
 
   -- Auto pair char
   use({ "windwp/nvim-autopairs" })
+
+  -- Multi Cursor
+  use({ "mg979/vim-visual-multi", branch = "master" })
 
   -- Show hex color and rgb
   use({ "norcalli/nvim-colorizer.lua" })
@@ -400,6 +413,8 @@ require("nvim-treesitter.configs").setup({
     "dart",
     "php",
     "help",
+    "markdown",
+    "markdown_inline",
     "vim",
     "vue",
   },
@@ -484,10 +499,10 @@ local on_attach = function(_, bufnr)
     vim.keymap.set("n", keys, func, { buffer = bufnr, desc = desc })
   end
 
-  nmap("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
-  nmap("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
+  -- nmap("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
+  -- nmap("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
 
-  nmap("gd", vim.lsp.buf.definition, "[G]oto [D]efinition")
+  -- nmap("gd", vim.lsp.buf.definition, "[G]oto [D]efinition")
   nmap("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
   nmap("gI", vim.lsp.buf.implementation, "[G]oto [I]mplementation")
   nmap("<leader>D", vim.lsp.buf.type_definition, "Type [D]efinition")
@@ -499,7 +514,7 @@ local on_attach = function(_, bufnr)
   nmap("<C-k>", vim.lsp.buf.signature_help, "Signature Documentation")
 
   -- Lesser used LSP functionality
-  nmap("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
+  -- nmap("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
   nmap("<leader>wa", vim.lsp.buf.add_workspace_folder, "[W]orkspace [A]dd Folder")
   nmap("<leader>wr", vim.lsp.buf.remove_workspace_folder, "[W]orkspace [R]emove Folder")
   nmap("<leader>wl", function()
@@ -519,6 +534,85 @@ local on_attach = function(_, bufnr)
     command = "Format",
   })
 end
+
+-- LSP Saga
+require("lspsaga").setup({
+  symbol_in_winbar = {
+    enable = true,
+    separator = "  ",
+    hide_keyword = true,
+    show_file = true,
+    folder_level = 2,
+    respect_root = false,
+    color_mode = true,
+  },
+})
+
+local keymap = vim.keymap.set
+-- LSP finder - Find the symbol's definition
+-- If there is no definition, it will instead be hidden
+-- When you use an action in finder like "open vsplit",
+-- you can use <C-t> to jump back
+keymap("n", "gh", "<cmd>Lspsaga lsp_finder<CR>")
+
+-- Code action
+keymap({ "n", "v" }, "<leader>ca", "<cmd>Lspsaga code_action<CR>", { desc = "[C]ode [A]ction" })
+
+-- Rename all occurrences of the hovered word for the entire file
+keymap("n", "<leader>rn", "<cmd>Lspsaga rename<CR>", { desc = "[R]e[N]ame" })
+
+-- Peek definition
+-- You can edit the file containing the definition in the floating window
+-- It also supports open/vsplit/etc operations, do refer to "definition_action_keys"
+-- It also supports tagstack
+-- Use <C-t> to jump back
+keymap("n", "gp", "<cmd>Lspsaga peek_definition<CR>", { desc = "Peek Definition" })
+
+-- Go to definition
+keymap("n", "gd", "<cmd>Lspsaga goto_definition<CR>", { desc = "[G]o to [D]efinition" })
+
+-- Show line diagnostics
+-- You can pass argument ++unfocus to
+-- unfocus the show_line_diagnostics floating window
+keymap("n", "<leader>sl", "<cmd>Lspsaga show_line_diagnostics<CR>")
+
+-- Show cursor diagnostics
+-- Like show_line_diagnostics, it supports passing the ++unfocus argument
+keymap("n", "<leader>sc", "<cmd>Lspsaga show_cursor_diagnostics<CR>")
+
+-- Show buffer diagnostics
+keymap("n", "<leader>sb", "<cmd>Lspsaga show_buf_diagnostics<CR>")
+
+-- Diagnostic jump
+-- You can use <C-o> to jump back to your previous location
+keymap("n", "[e", "<cmd>Lspsaga diagnostic_jump_prev<CR>")
+keymap("n", "]e", "<cmd>Lspsaga diagnostic_jump_next<CR>")
+
+-- Diagnostic jump with filters such as only jumping to an error
+keymap("n", "[E", function()
+  require("lspsaga.diagnostic"):goto_prev({ severity = vim.diagnostic.severity.ERROR })
+end)
+keymap("n", "]E", function()
+  require("lspsaga.diagnostic"):goto_next({ severity = vim.diagnostic.severity.ERROR })
+end)
+
+-- Toggle outline
+keymap("n", "<leader>o", "<cmd>Lspsaga outline<CR>")
+
+-- Call hierarchy
+keymap("n", "<Leader>ci", "<cmd>Lspsaga incoming_calls<CR>")
+keymap("n", "<Leader>co", "<cmd>Lspsaga outgoing_calls<CR>")
+
+-- Hover Doc
+-- If there is no hover doc,
+-- there will be a notification stating that
+-- there is no information available.
+-- To disable it just use ":Lspsaga hover_doc ++quiet"
+-- Pressing the key twice will enter the hover window
+keymap("n", "K", "<cmd>Lspsaga hover_doc<CR>")
+
+-- Floating terminal
+keymap({ "n", "t" }, "<A-t>", "<cmd>Lspsaga term_toggle<CR>")
 
 -- Enable the following language servers
 --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
@@ -631,7 +725,7 @@ null_ls.setup({
     -- null_ls.builtins.diagnostics.stylelint,
     -- null_ls.builtins.formatting.json_tool,
     -- null_ls.builtins.diagnostics.jsonlint,
-    null_ls.builtins.formatting.stylua,
+    -- null_ls.builtins.formatting.stylua,
     null_ls.builtins.formatting.gofmt,
     null_ls.builtins.formatting.goimports,
     null_ls.builtins.formatting.goimports_reviser,
@@ -685,7 +779,7 @@ require("nvim-tree").setup({
 })
 
 -- vim.keymap.set("n", "<C-n>", ":NvimTreeToggle<CR>")
-vim.keymap.set("n", "<C-n>", toggle_nvim_tree)
+vim.keymap.set("n", "<leader>n", toggle_nvim_tree, { desc = "Toggle [N]vimTree" })
 
 vim.api.nvim_create_autocmd("VimEnter", {
   pattern = "*",
@@ -696,12 +790,12 @@ vim.api.nvim_create_autocmd("VimEnter", {
 local baseKeymapsOpts = { noremap = true, silent = true }
 
 -- Move to previous/next
-vim.keymap.set("n", "<A-a>", "<Cmd>BufferPrevious<CR>", baseKeymapsOpts)
-vim.keymap.set("n", "<A-d>", "<Cmd>BufferNext<CR>", baseKeymapsOpts)
+vim.keymap.set("n", "<A-,>", "<Cmd>BufferPrevious<CR>", baseKeymapsOpts)
+vim.keymap.set("n", "<A-.>", "<Cmd>BufferNext<CR>", baseKeymapsOpts)
 
 -- Re-order to previous/next
-vim.keymap.set("n", "<A-A>", "<Cmd>BufferMovePrevious<CR>", baseKeymapsOpts)
-vim.keymap.set("n", "<A-D>", "<Cmd>BufferMoveNext<CR>", baseKeymapsOpts)
+vim.keymap.set("n", "<C-,>", "<Cmd>BufferMovePrevious<CR>", baseKeymapsOpts)
+vim.keymap.set("n", "<C-.>", "<Cmd>BufferMoveNext<CR>", baseKeymapsOpts)
 
 -- Goto buffer in position...
 vim.keymap.set("n", "<A-1>", "<Cmd>BufferGoto 1<CR>", baseKeymapsOpts)
@@ -757,5 +851,4 @@ require("nvim-autopairs").setup({
 })
 
 -- The line beneath this is called `modeline`. See `:help modeline`
--- vim: ts=2 sts=2 sw=2 et
 -- vim: ts=2 sts=2 sw=2 et
