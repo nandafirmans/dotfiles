@@ -123,20 +123,30 @@ require("packer").startup(function(use)
   use({ "norcalli/nvim-colorizer.lua" })
 
   -- Git related plugins
-  use("tpope/vim-fugitive")
-  use("tpope/vim-rhubarb")
-  use("lewis6991/gitsigns.nvim")
+  use({ "tpope/vim-fugitive" })
+  use({ "tpope/vim-rhubarb" })
+  use({ "lewis6991/gitsigns.nvim" })
 
   -- Color scheme
-  use("navarasu/onedark.nvim")
-  use("dracula/vim")
-  use("folke/tokyonight.nvim")
+  use({ "navarasu/onedark.nvim" })
+  use({ "dracula/vim" })
+  use({ "folke/tokyonight.nvim" })
   use({ "catppuccin/nvim", as = "catppuccin" })
+  use({ "olimorris/onedarkpro.nvim" })
+  use({ "sainnhe/sonokai" })
+  use({ "sickill/vim-monokai" })
+  use({ "edeneast/nightfox.nvim" })
+  use({ "ayu-theme/ayu-vim" })
+  use({ "tomasr/molokai" })
+  use({ "glepnir/oceanic-material" })
+  use({ "thedenisnikulin/vim-cyberpunk" })
+  use({ "dunstontc/vim-vscode-theme" })
+  use({ "adrian5/oceanic-next-vim" })
 
-  use("nvim-lualine/lualine.nvim") -- Fancier statusline
-  use("lukas-reineke/indent-blankline.nvim") -- Add indentation guides even on blank lines
-  use("numToStr/Comment.nvim") -- "gc" to comment visual regions/lines
-  use("tpope/vim-sleuth") -- Detect tabstop and shiftwidth automatically
+  use({ "nvim-lualine/lualine.nvim" }) -- Fancier statusline
+  use({ "lukas-reineke/indent-blankline.nvim" }) -- Add indentation guides even on blank lines
+  use({ "numToStr/Comment.nvim" }) -- "gc" to comment visual regions/lines
+  use({ "tpope/vim-sleuth" }) -- Detect tabstop and shiftwidth automatically
 
   -- Fuzzy Finder (files, lsp, etc)
   use({ "nvim-telescope/telescope.nvim", branch = "0.1.x", requires = { "nvim-lua/plenary.nvim" } })
@@ -242,7 +252,7 @@ vim.wo.signcolumn = "yes"
 
 -- Set colorscheme
 vim.o.termguicolors = true
-vim.cmd([[colorscheme tokyonight-moon]])
+vim.cmd([[colorscheme sonokai]])
 
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = "menuone,noselect"
@@ -314,7 +324,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 -- See `:help lualine.txt`
 require("lualine").setup({
   options = {
-    theme = "tokyonight-moon",
+    theme = "sonokai",
     section_separators = { left = "", right = "" },
     component_separators = { left = "", right = "" },
     disabled_filetypes = { "packer", "NvimTree" },
@@ -709,7 +719,7 @@ cmp.setup({
     { name = "nvim_lsp" },
     { name = "luasnip" },
     { name = "path" },
-    { name = "buffer" },
+    -- { name = "buffer" },
   },
 })
 
@@ -718,7 +728,7 @@ local null_ls = require("null-ls")
 null_ls.setup({
   sources = {
     null_ls.builtins.formatting.prettierd,
-    null_ls.builtins.code_actions.eslint,
+    -- null_ls.builtins.code_actions.eslint,
     -- null_ls.builtins.diagnostics.eslint,
     -- null_ls.builtins.diagnostics.tsc,
     -- null_ls.builtins.formatting.stylelint,
@@ -730,8 +740,8 @@ null_ls.setup({
     null_ls.builtins.formatting.goimports,
     null_ls.builtins.formatting.goimports_reviser,
     null_ls.builtins.formatting.golines,
-    null_ls.builtins.diagnostics.golangci_lint,
-    null_ls.builtins.completion.tags,
+    -- null_ls.builtins.diagnostics.golangci_lint,
+    -- null_ls.builtins.completion.tags,
   },
 })
 
