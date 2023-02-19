@@ -110,6 +110,7 @@ require("packer").startup(function(use)
     },
   })
 
+
   -- Auto close tag
   use({ "windwp/nvim-ts-autotag" })
 
@@ -121,6 +122,21 @@ require("packer").startup(function(use)
 
   -- Show hex color and rgb
   use({ "norcalli/nvim-colorizer.lua" })
+
+  -- Flutter
+  use { 'akinsho/flutter-tools.nvim', requires = 'nvim-lua/plenary.nvim' }
+
+  -- ZenMode
+  use {
+    "folke/zen-mode.nvim",
+    config = function()
+      require("zen-mode").setup {
+        -- your configuration comes here
+        -- or leave it empty to use the default settings
+        -- refer to the configuration section below
+      }
+    end
+  }
 
   -- Git related plugins
   use({ "tpope/vim-fugitive" })
@@ -240,7 +256,7 @@ vim.o.mouse = "a"
 vim.o.breakindent = true
 
 -- Save undo history
-vim.o.undofile = true
+-- vim.o.undofile = true
 
 -- Case insensitive searching UNLESS /C or capital in search
 vim.o.ignorecase = true
@@ -287,6 +303,9 @@ vim.keymap.set("n", "<leader>qq", ":qa<CR>")
 -- Select all
 vim.keymap.set("n", "<C-a>", "gg<S-v>G")
 
+-- Buffer New
+vim.keymap.set("n", "<leader>bn", ":enew<CR>", { desc = "[B]uffer [N]ew" })
+
 -- Move window focus
 vim.keymap.set("", "<C-h>", "<C-w>h")
 vim.keymap.set("", "<C-k>", "<C-w>k")
@@ -308,6 +327,9 @@ vim.keymap.set("n", "<leader>tt", ":tabs<CR>")
 
 -- Git Blame
 vim.keymap.set("n", "<leader>b", "<Cmd>Gitsigns toggle_current_line_blame<CR>")
+
+-- Git Blame
+vim.keymap.set("n", "<leader>zz", "<Cmd>ZenMode<CR>")
 
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
@@ -354,6 +376,13 @@ require("gitsigns").setup({
   },
 })
 
+-- Flutter
+require("flutter-tools").setup {}
+-- vim.api.nvim_create_autocmd("BufEnter", {
+--   pattern = "*.dart",
+--   command = "silent! IndentBlanklineDisable | silent! IndentBlanklineEnable"
+-- })
+
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
 require("telescope").setup({
@@ -374,9 +403,10 @@ require("telescope").setup({
   },
 })
 
--- Enable telescope fzf native, if installes
+-- Telescope Plugins
 pcall(require("telescope").load_extension, "fzf")
 pcall(require("telescope").load_extension, "file_browser")
+pcall(require("telescope").load_extension, "flutter")
 
 -- See `:help telescope.builtin`
 vim.keymap.set("n", "<leader>?", require("telescope.builtin").oldfiles, { desc = "[?] Find recently opened files" })
@@ -558,60 +588,59 @@ require("lspsaga").setup({
   },
 })
 
-local keymap = vim.keymap.set
 -- LSP finder - Find the symbol's definition
 -- If there is no definition, it will instead be hidden
 -- When you use an action in finder like "open vsplit",
 -- you can use <C-t> to jump back
-keymap("n", "gh", "<cmd>Lspsaga lsp_finder<CR>")
+vim.keymap.set("n", "gh", "<cmd>Lspsaga lsp_finder<CR>")
 
 -- Code action
-keymap({ "n", "v" }, "<leader>ca", "<cmd>Lspsaga code_action<CR>", { desc = "[C]ode [A]ction" })
+vim.keymap.set({ "n", "v" }, "<leader>ca", "<cmd>Lspsaga code_action<CR>", { desc = "[C]ode [A]ction" })
 
 -- Rename all occurrences of the hovered word for the entire file
-keymap("n", "<leader>rn", "<cmd>Lspsaga rename<CR>", { desc = "[R]e[N]ame" })
+vim.keymap.set("n", "<leader>rn", "<cmd>Lspsaga rename<CR>", { desc = "[R]e[N]ame" })
 
 -- Peek definition
 -- You can edit the file containing the definition in the floating window
 -- It also supports open/vsplit/etc operations, do refer to "definition_action_keys"
 -- It also supports tagstack
 -- Use <C-t> to jump back
-keymap("n", "gp", "<cmd>Lspsaga peek_definition<CR>", { desc = "Peek Definition" })
+vim.keymap.set("n", "gp", "<cmd>Lspsaga peek_definition<CR>", { desc = "Peek Definition" })
 
 -- Go to definition
-keymap("n", "gd", "<cmd>Lspsaga goto_definition<CR>", { desc = "[G]o to [D]efinition" })
+vim.keymap.set("n", "gd", "<cmd>Lspsaga goto_definition<CR>", { desc = "[G]o to [D]efinition" })
 
 -- Show line diagnostics
 -- You can pass argument ++unfocus to
 -- unfocus the show_line_diagnostics floating window
-keymap("n", "<leader>sl", "<cmd>Lspsaga show_line_diagnostics<CR>")
+vim.keymap.set("n", "<leader>sl", "<cmd>Lspsaga show_line_diagnostics<CR>")
 
 -- Show cursor diagnostics
 -- Like show_line_diagnostics, it supports passing the ++unfocus argument
-keymap("n", "<leader>sc", "<cmd>Lspsaga show_cursor_diagnostics<CR>")
+vim.keymap.set("n", "<leader>sc", "<cmd>Lspsaga show_cursor_diagnostics<CR>")
 
 -- Show buffer diagnostics
-keymap("n", "<leader>sb", "<cmd>Lspsaga show_buf_diagnostics<CR>")
+vim.keymap.set("n", "<leader>sb", "<cmd>Lspsaga show_buf_diagnostics<CR>")
 
 -- Diagnostic jump
 -- You can use <C-o> to jump back to your previous location
-keymap("n", "[e", "<cmd>Lspsaga diagnostic_jump_prev<CR>")
-keymap("n", "]e", "<cmd>Lspsaga diagnostic_jump_next<CR>")
+vim.keymap.set("n", "[e", "<cmd>Lspsaga diagnostic_jump_prev<CR>")
+vim.keymap.set("n", "]e", "<cmd>Lspsaga diagnostic_jump_next<CR>")
 
 -- Diagnostic jump with filters such as only jumping to an error
-keymap("n", "[E", function()
+vim.keymap.set("n", "[E", function()
   require("lspsaga.diagnostic"):goto_prev({ severity = vim.diagnostic.severity.ERROR })
 end)
-keymap("n", "]E", function()
+vim.keymap.set("n", "]E", function()
   require("lspsaga.diagnostic"):goto_next({ severity = vim.diagnostic.severity.ERROR })
 end)
 
 -- Toggle outline
-keymap("n", "<leader>o", "<cmd>Lspsaga outline<CR>")
+vim.keymap.set("n", "<leader>o", "<cmd>Lspsaga outline<CR>")
 
 -- Call hierarchy
-keymap("n", "<Leader>ci", "<cmd>Lspsaga incoming_calls<CR>")
-keymap("n", "<Leader>co", "<cmd>Lspsaga outgoing_calls<CR>")
+vim.keymap.set("n", "<Leader>ci", "<cmd>Lspsaga incoming_calls<CR>")
+vim.keymap.set("n", "<Leader>co", "<cmd>Lspsaga outgoing_calls<CR>")
 
 -- Hover Doc
 -- If there is no hover doc,
@@ -619,10 +648,10 @@ keymap("n", "<Leader>co", "<cmd>Lspsaga outgoing_calls<CR>")
 -- there is no information available.
 -- To disable it just use ":Lspsaga hover_doc ++quiet"
 -- Pressing the key twice will enter the hover window
-keymap("n", "K", "<cmd>Lspsaga hover_doc<CR>")
+vim.keymap.set("n", "K", "<cmd>Lspsaga hover_doc<CR>")
 
 -- Floating terminal
-keymap({ "n", "t" }, "<A-t>", "<cmd>Lspsaga term_toggle<CR>")
+vim.keymap.set({ "n", "t" }, "<A-t>", "<cmd>Lspsaga term_toggle<CR>")
 
 -- Enable the following language servers
 --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
@@ -869,4 +898,10 @@ require("nvim-autopairs").setup({
 })
 
 -- The line beneath this is called `modeline`. See `:help modeline`
+-- vim: ts=2 sts=2 sw=2 et
+-- vim: ts=2 sts=2 sw=2 et
+-- vim: ts=2 sts=2 sw=2 et
+-- vim: ts=2 sts=2 sw=2 et
+-- vim: ts=2 sts=2 sw=2 et
+-- vim: ts=2 sts=2 sw=2 et
 -- vim: ts=2 sts=2 sw=2 et
