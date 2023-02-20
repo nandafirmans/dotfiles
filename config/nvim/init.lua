@@ -160,6 +160,20 @@ require("packer").startup(function(use)
   use({ "thedenisnikulin/vim-cyberpunk" })
   use({ "dunstontc/vim-vscode-theme" })
   use({ "adrian5/oceanic-next-vim" })
+  use {
+    'uloco/bluloco.nvim',
+    requires = { 'rktjmp/lush.nvim' },
+    config = function()
+      require("bluloco").setup({
+        style       = "auto", -- "auto" | "dark" | "light"
+        transparent = false,
+        italics     = false,
+        terminal    = vim.fn.has("gui_running") == 1, -- bluoco colors are enabled in gui terminals per default.
+        guicursor   = true,
+      })
+    end
+
+  }
 
   use({ "nvim-lualine/lualine.nvim" }) -- Fancier statusline
   use({ "lukas-reineke/indent-blankline.nvim" }) -- Add indentation guides even on blank lines
@@ -270,7 +284,7 @@ vim.wo.signcolumn = "yes"
 
 -- Set colorscheme
 vim.o.termguicolors = true
-vim.cmd([[colorscheme sonokai]])
+vim.cmd([[colorscheme bluloco-dark]])
 
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = "menuone,noselect"
@@ -350,9 +364,11 @@ require("lualine").setup({
   options = {
     theme = "auto",
     -- section_separators = { left = '', right = '' },
-    section_separators = { left = "", right = "" },
+    section_separators = { left = "", right = "" },
+    component_separators = "|",
+    -- component_separators = "┊",
     -- component_separators = { left = "", right = "" },
-    component_separators = { left = '', right = '' },
+    -- component_separators = { left = '', right = '' },
     disabled_filetypes = { "packer", "NvimTree" },
   },
   sections = {
@@ -812,7 +828,7 @@ vim.keymap.set("n", "<leader>ss", "<Cmd>SearchSession<CR>", { desc = "[S]earch [
 vim.keymap.set("n", "<leader>sd", "<Cmd>Autosession delete<CR>", { desc = "[S]ession [D]elete" })
 
 -- NvimTree
-local nvim_tree_width = 40
+local nvim_tree_width = 50
 
 local toggle_nvim_tree = function()
   local view = require("nvim-tree.view")
@@ -820,7 +836,7 @@ local toggle_nvim_tree = function()
     require("nvim-tree").toggle()
     require("bufferline.state").offset = { text = "", width = 0 }
   else
-    require("bufferline.state").offset = { text = "File Explorer", width = nvim_tree_width + 1 }
+    require("bufferline.state").offset = { text = "File Explorer", width = nvim_tree_width }
     require("nvim-tree").toggle({ find_file = true })
   end
 end
