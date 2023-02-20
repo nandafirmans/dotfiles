@@ -35,7 +35,6 @@ require("packer").startup(function(use)
       "hrsh7th/cmp-path",
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/cmp-buffer",
-
       -- Snippet
       "L3MON4D3/LuaSnip",
       "saadparwaiz1/cmp_luasnip",
@@ -46,6 +45,9 @@ require("packer").startup(function(use)
     "dsznajder/vscode-es7-javascript-react-snippets",
     run = "yarn install --frozen-lockfile && yarn compile",
   })
+
+  -- VSCode like picktogram
+  use({ "onsails/lspkind.nvim" })
 
   use({
     -- Highlight, edit, and navigate code
@@ -724,6 +726,13 @@ cmp.setup({
     expand = function(args)
       luasnip.lsp_expand(args.body)
     end,
+  },
+  formatting = {
+    format = require('lspkind').cmp_format({
+      mode = 'symbol_text',
+      ellipsis_char = '...',
+      maxwidth = 50,
+    }),
   },
   mapping = cmp.mapping.preset.insert({
     ["<C-d>"] = cmp.mapping.scroll_docs( -4),
