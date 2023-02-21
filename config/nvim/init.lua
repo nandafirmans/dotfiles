@@ -104,15 +104,6 @@ require("packer").startup(function(use)
     requires = "nvim-lua/plenary.nvim",
   })
 
-  use({
-    "ThePrimeagen/refactoring.nvim",
-    requires = {
-      { "nvim-lua/plenary.nvim" },
-      { "nvim-treesitter/nvim-treesitter" },
-    },
-  })
-
-
   -- Auto close tag
   use({ "windwp/nvim-ts-autotag" })
 
@@ -160,7 +151,9 @@ require("packer").startup(function(use)
   use({ "thedenisnikulin/vim-cyberpunk" })
   use({ "dunstontc/vim-vscode-theme" })
   use({ "adrian5/oceanic-next-vim" })
-  use {
+  use({ "nlknguyen/papercolor-theme" })
+  use({ "nonetallt/vim-neon-dark" })
+  use({
     'uloco/bluloco.nvim',
     requires = { 'rktjmp/lush.nvim' },
     config = function()
@@ -172,8 +165,7 @@ require("packer").startup(function(use)
         guicursor   = true,
       })
     end
-
-  }
+  })
 
   use({ "nvim-lualine/lualine.nvim" }) -- Fancier statusline
   use({ "lukas-reineke/indent-blankline.nvim" }) -- Add indentation guides even on blank lines
@@ -284,7 +276,7 @@ vim.wo.signcolumn = "yes"
 
 -- Set colorscheme
 vim.o.termguicolors = true
-vim.cmd([[colorscheme bluloco-dark]])
+vim.cmd([[colorscheme tokyonight-night]])
 
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = "menuone,noselect"
@@ -828,7 +820,7 @@ vim.keymap.set("n", "<leader>ss", "<Cmd>SearchSession<CR>", { desc = "[S]earch [
 vim.keymap.set("n", "<leader>sd", "<Cmd>Autosession delete<CR>", { desc = "[S]ession [D]elete" })
 
 -- NvimTree
-local nvim_tree_width = 50
+local nvim_tree_width = 45
 
 local toggle_nvim_tree = function()
   local view = require("nvim-tree.view")
