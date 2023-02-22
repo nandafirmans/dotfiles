@@ -150,7 +150,7 @@ require("packer").startup(function(use)
   use({ "dracula/vim" })
   use({ "folke/tokyonight.nvim" })
   use({ "catppuccin/nvim", as = "catppuccin" })
-  use({ "olimorris/onedarkpro.nvim" })
+  -- use({ "olimorris/onedarkpro.nvim" })
   use({ "sainnhe/sonokai" })
   use({ "sickill/vim-monokai" })
   use({ "edeneast/nightfox.nvim" })
@@ -306,7 +306,7 @@ vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = tr
 vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
 -- Save File
-vim.keymap.set("", "<C-s>", ":w!<CR>")
+vim.keymap.set({ "n", "v", "i" }, "<C-s>", "<Cmd>w!<CR>")
 
 -- Close Buffer
 vim.keymap.set("n", "<A-q>", ":q<CR>")
@@ -925,7 +925,7 @@ vim.keymap.set("n", "<leader>dc", "<Cmd>DiffviewClose<CR>", baseKeymapsOpts)
 -- FineCmdline
 require('fine-cmdline').setup({
   cmdline = {
-    prompt = '  '
+    prompt = ' :'
   },
   popup = {
     size = {
@@ -934,12 +934,15 @@ require('fine-cmdline').setup({
     border = {
       text = {
         top = " Cmdline "
-      }
-    }
+      },
+    },
+    win_options = {
+      winhighlight = "Normal:Normal,FloatBorder:SpecialChar",
+    },
   },
 })
 vim.o.cmdheight = 0
-vim.keymap.set("n", ":", "<Cmd>FineCmdline<CR>", { noremap = true })
+vim.keymap.set({ "n", "v" }, ":", "<Cmd>FineCmdline<CR>", { noremap = true })
 
 -- Nvim Colorizer
 require("colorizer").setup()
