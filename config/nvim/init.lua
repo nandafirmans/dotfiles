@@ -99,6 +99,7 @@ require("packer").startup(function(use)
     requires = { "rmagatti/auto-session", "nvim-telescope/telescope.nvim" },
   })
 
+  -- Git Diffview
   use({
     "sindrets/diffview.nvim",
     requires = "nvim-lua/plenary.nvim",
@@ -120,7 +121,7 @@ require("packer").startup(function(use)
   use { 'akinsho/flutter-tools.nvim', requires = 'nvim-lua/plenary.nvim' }
 
   -- ZenMode
-  use {
+  use({
     "folke/zen-mode.nvim",
     config = function()
       require("zen-mode").setup {
@@ -129,7 +130,15 @@ require("packer").startup(function(use)
         -- refer to the configuration section below
       }
     end
-  }
+  })
+
+  -- FineCmdline
+  use({
+    'VonHeikemen/fine-cmdline.nvim',
+    requires = {
+      { 'MunifTanjim/nui.nvim' }
+    }
+  })
 
   -- Git related plugins
   use({ "tpope/vim-fugitive" })
@@ -338,6 +347,7 @@ vim.keymap.set("n", "<leader>b", "<Cmd>Gitsigns toggle_current_line_blame<CR>")
 
 -- Git Blame
 vim.keymap.set("n", "<leader>zz", "<Cmd>ZenMode<CR>")
+
 
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
@@ -910,6 +920,26 @@ vim.keymap.set("n", "<leader>dr", "<Cmd>DiffviewRefresh<CR>", baseKeymapsOpts)
 vim.keymap.set("n", "<leader>dhf", "<Cmd>DiffviewFileHistory %<CR>", baseKeymapsOpts)
 vim.keymap.set("n", "<leader>dh", "<Cmd>DiffviewFileHistory<CR>", baseKeymapsOpts)
 vim.keymap.set("n", "<leader>dc", "<Cmd>DiffviewClose<CR>", baseKeymapsOpts)
+
+
+-- FineCmdline
+require('fine-cmdline').setup({
+  cmdline = {
+    prompt = '  '
+  },
+  popup = {
+    size = {
+      width = '60%'
+    },
+    border = {
+      text = {
+        top = " Cmdline "
+      }
+    }
+  },
+})
+vim.o.cmdheight = 0
+vim.keymap.set("n", ":", "<Cmd>FineCmdline<CR>", { noremap = true })
 
 -- Nvim Colorizer
 require("colorizer").setup()
