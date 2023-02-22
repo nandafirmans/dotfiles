@@ -140,6 +140,14 @@ require("packer").startup(function(use)
     }
   })
 
+  -- SearchBox
+  use({
+    'VonHeikemen/searchbox.nvim',
+    requires = {
+      { 'MunifTanjim/nui.nvim' }
+    }
+  })
+
   -- Git related plugins
   use({ "tpope/vim-fugitive" })
   use({ "tpope/vim-rhubarb" })
@@ -285,7 +293,7 @@ vim.wo.signcolumn = "yes"
 
 -- Set colorscheme
 vim.o.termguicolors = true
-vim.cmd([[colorscheme tokyonight-night]])
+vim.cmd([[colorscheme onedark]])
 
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = "menuone,noselect"
@@ -942,7 +950,22 @@ require('fine-cmdline').setup({
   },
 })
 vim.o.cmdheight = 0
-vim.keymap.set({ "n", "v" }, ":", "<Cmd>FineCmdline<CR>", { noremap = true })
+vim.keymap.set({ "n", "v" }, ":", "<Esc><Cmd>FineCmdline<CR>", { noremap = true })
+
+-- Searchbox
+require('searchbox').setup({
+  defaults = {
+    clear_matches = false,
+    show_matches = true,
+  },
+  popup = {
+    win_options = {
+      winhighlight = "Normal:Normal,FloatBorder:SpecialChar",
+    },
+  },
+})
+vim.keymap.set({ "n", "v" }, "/", ":SearchBoxMatchAll<CR>", { noremap = true, silent = true })
+
 
 -- Nvim Colorizer
 require("colorizer").setup()
