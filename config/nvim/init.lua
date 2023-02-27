@@ -124,11 +124,15 @@ require("packer").startup(function(use)
   use({
     "folke/zen-mode.nvim",
     config = function()
-      require("zen-mode").setup {
-        -- your configuration comes here
-        -- or leave it empty to use the default settings
-        -- refer to the configuration section below
-      }
+      require("zen-mode").setup {}
+    end
+  })
+
+  -- Todo Highlight
+  use({
+    "folke/todo-comments.nvim",
+    requires = "nvim-lua/plenary.nvim",
+    config = function()
     end
   })
 
@@ -293,7 +297,7 @@ vim.wo.signcolumn = "yes"
 
 -- Set colorscheme
 vim.o.termguicolors = true
-vim.cmd([[colorscheme onedark]])
+vim.cmd([[colorscheme catppuccin-mocha]])
 
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = "menuone,noselect"
@@ -391,6 +395,7 @@ require("lualine").setup({
 
 -- Enable Comment.nvim
 require("Comment").setup()
+require("todo-comments").setup {}
 
 -- Enable `lukas-reineke/indent-blankline.nvim`
 -- See `:help indent_blankline.txt`
@@ -446,7 +451,7 @@ pcall(require("telescope").load_extension, "flutter")
 -- See `:help telescope.builtin`
 vim.keymap.set("n", "<leader>?", require("telescope.builtin").oldfiles, { desc = "[?] Find recently opened files" })
 vim.keymap.set("n", "<leader><space>", require("telescope.builtin").buffers, { desc = "[ ] Find existing buffers" })
-vim.keymap.set("n", "<leader>/", function()
+vim.keymap.set("n", "<leader>f/", function()
   -- You can pass additional configuration to telescope to change theme, layout, etc.
   require("telescope.builtin").current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
     winblend = 10,
@@ -466,6 +471,7 @@ vim.keymap.set(
   ":Telescope file_browser path=%:p:h select_buffer=true<CR>",
   { desc = "[F]ile [B]rowser", noremap = true }
 )
+vim.keymap.set("n", "<leader>ft", "<Cmd>TodoTelescope<CR>", { desc = "[F]ind [T]odo" })
 
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
@@ -964,7 +970,8 @@ require('searchbox').setup({
     },
   },
 })
-vim.keymap.set({ "n", "v" }, "/", ":SearchBoxMatchAll<CR>", { noremap = true, silent = true })
+vim.keymap.set({ "n", "v" }, "/", "<Cmd>SearchBoxMatchAll<CR>", { noremap = true })
+vim.keymap.set({ "n", "v" }, "<A-c>", "<Cmd>SearchBoxClear<CR>", { noremap = true })
 
 
 -- Nvim Colorizer
