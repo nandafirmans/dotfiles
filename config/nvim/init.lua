@@ -392,7 +392,14 @@ require("lualine").setup({
     -- component_separators = "┊",
     -- component_separators = { left = "", right = "" },
     -- component_separators = { left = '', right = '' },
-    disabled_filetypes = { "packer", "NvimTree" },
+    -- disabled_filetypes = { "packer", "NvimTree" },
+    disabled_filetypes = {},
+    globalstatus = true,
+    refresh = {
+      statusline = 100,
+      tabline = 100,
+      winbar = 100,
+    },
   },
   sections = {
     lualine_c = {
