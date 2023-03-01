@@ -174,6 +174,7 @@ require("packer").startup(function(use)
   use({ "adrian5/oceanic-next-vim" })
   use({ "nlknguyen/papercolor-theme" })
   use({ "nonetallt/vim-neon-dark" })
+  use({ "loctvl842/monokai-pro.nvim" })
   use({
     'uloco/bluloco.nvim',
     requires = { 'rktjmp/lush.nvim' },
@@ -295,9 +296,17 @@ vim.o.smartcase = true
 vim.o.updatetime = 250
 vim.wo.signcolumn = "yes"
 
+-- Monokai Pro
+require("monokai-pro").setup({
+  terminal_colors = true,
+  devicons = true, -- highlight the icons of `nvim-web-devicons`
+  italic_comments = true,
+  filter = "spectrum", -- classic | octagon | pro | machine | ristretto | spectrum
+})
+
 -- Set colorscheme
+vim.cmd([[colorscheme monokai-pro]])
 vim.o.termguicolors = true
-vim.cmd([[colorscheme catppuccin-mocha]])
 
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = "menuone,noselect"
@@ -985,11 +994,6 @@ require("nvim-autopairs").setup({
   disable_filetype = { "TelescopePrompt", "vim" },
 })
 
+
 -- The line beneath this is called `modeline`. See `:help modeline`
--- vim: ts=2 sts=2 sw=2 et
--- vim: ts=2 sts=2 sw=2 et
--- vim: ts=2 sts=2 sw=2 et
--- vim: ts=2 sts=2 sw=2 et
--- vim: ts=2 sts=2 sw=2 et
--- vim: ts=2 sts=2 sw=2 et
 -- vim: ts=2 sts=2 sw=2 et
