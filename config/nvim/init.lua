@@ -400,6 +400,7 @@ require("lualine").setup({
       tabline = 100,
       winbar = 100,
     },
+
   },
   sections = {
     lualine_c = {
@@ -860,35 +861,37 @@ vim.keymap.set("n", "<leader>ss", "<Cmd>SearchSession<CR>", { desc = "[S]earch [
 vim.keymap.set("n", "<leader>sd", "<Cmd>Autosession delete<CR>", { desc = "[S]ession [D]elete" })
 
 -- NvimTree
-local nvim_tree_width = 45
-
-local toggle_nvim_tree = function()
-  local view = require("nvim-tree.view")
-  if view.is_visible() then
-    require("nvim-tree").toggle()
-    require("bufferline.state").offset = { text = "", width = 0 }
-  else
-    require("bufferline.state").offset = { text = "File Explorer", width = nvim_tree_width }
-    require("nvim-tree").toggle({ find_file = true })
-  end
-end
-
 require("nvim-tree").setup({
-  view = {
-    width = nvim_tree_width,
-  },
   update_focused_file = {
     enable = true,
   },
 })
 
--- vim.keymap.set("n", "<C-n>", ":NvimTreeToggle<CR>")
-vim.keymap.set("n", "<leader>n", toggle_nvim_tree, { desc = "Toggle [N]vimTree" })
+vim.keymap.set("n", "<leader>n", ":NvimTreeToggle<CR>")
 
 vim.api.nvim_create_autocmd("VimEnter", {
   pattern = "*",
   command = "NvimTreeFindFile!",
 })
+local nvimTreeApi = require('nvim-tree.api');
+local nvimTreeEvent = nvimTreeApi.events.Event;
+local bufferlineApi = require('bufferline.api')
+
+local function getTreeSize()
+  return require 'nvim-tree.view'.View.width
+end
+
+nvimTreeApi.events.subscribe(nvimTreeEvent.TreeOpen, function()
+  bufferlineApi.set_offset(getTreeSize())
+end)
+
+nvimTreeApi.events.subscribe(nvimTreeEvent.Resize, function(size)
+  bufferlineApi.set_offset(size)
+end)
+
+nvimTreeApi.events.subscribe(nvimTreeEvent.TreeClose, function()
+  bufferlineApi.set_offset(0)
+end)
 
 -- BarBar
 require("bufferline").setup({
