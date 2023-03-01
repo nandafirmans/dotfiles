@@ -865,6 +865,16 @@ require("nvim-tree").setup({
   update_focused_file = {
     enable = true,
   },
+  view = {
+    side = "left",
+    width = 40,
+    auto_resize = true
+  },
+  actions = {
+    open_file = {
+      resize_window = true
+    }
+  }
 })
 
 vim.keymap.set("n", "<leader>n", ":NvimTreeToggle<CR>")
