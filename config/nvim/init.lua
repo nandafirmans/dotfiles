@@ -152,6 +152,10 @@ require("packer").startup(function(use)
     }
   })
 
+
+  -- CursorLine
+  use({ "yamatsum/nvim-cursorline" })
+
   -- Git related plugins
   use({ "tpope/vim-fugitive" })
   use({ "tpope/vim-rhubarb" })
@@ -1014,6 +1018,14 @@ require("nvim-autopairs").setup({
   disable_filetype = { "TelescopePrompt", "vim" },
 })
 
-
+-- CursorLine
+require('nvim-cursorline').setup {
+  cursorline = { enable = false },
+  cursorword = {
+    enable = true,
+    min_length = 3,
+    hl = { bold = true },
+  }
+}
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
