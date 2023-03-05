@@ -716,7 +716,7 @@ vim.keymap.set("n", "<Leader>co", "<cmd>Lspsaga outgoing_calls<CR>")
 vim.keymap.set("n", "K", "<cmd>Lspsaga hover_doc<CR>")
 
 -- Floating terminal
--- vim.keymap.set({ "n", "t" }, "<A-t>", "<cmd>Lspsaga term_toggle<CR>")
+vim.keymap.set({ "n", "t" }, "<A-T>", "<cmd>Lspsaga term_toggle<CR>")
 
 -- Enable the following language servers
 --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
