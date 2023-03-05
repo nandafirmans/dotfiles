@@ -152,9 +152,11 @@ require("packer").startup(function(use)
     }
   })
 
-
   -- CursorLine
   use({ "yamatsum/nvim-cursorline" })
+
+  -- ToggleTerm
+  use({ "akinsho/toggleterm.nvim", tag = '*' })
 
   -- Git related plugins
   use({ "tpope/vim-fugitive" })
@@ -409,7 +411,7 @@ require("lualine").setup({
   sections = {
     lualine_c = {
       require("auto-session-library").current_session_name,
-      { 'filename', path = 0, file_status = true },
+      { 'filename', path = 1, file_status = true },
     }
   },
 })
@@ -714,7 +716,7 @@ vim.keymap.set("n", "<Leader>co", "<cmd>Lspsaga outgoing_calls<CR>")
 vim.keymap.set("n", "K", "<cmd>Lspsaga hover_doc<CR>")
 
 -- Floating terminal
-vim.keymap.set({ "n", "t" }, "<A-t>", "<cmd>Lspsaga term_toggle<CR>")
+-- vim.keymap.set({ "n", "t" }, "<A-t>", "<cmd>Lspsaga term_toggle<CR>")
 
 -- Enable the following language servers
 --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
@@ -1027,5 +1029,62 @@ require('nvim-cursorline').setup {
     hl = { bold = true },
   }
 }
--- The line beneath this is called `modeline`. See `:help modeline`
--- vim: ts=2 sts=2 sw=2 et
+
+-- ToggleTerm
+require("toggleterm").setup({
+  size = 15,
+  open_mapping = [[<A-t>]],
+  hide_numbers = true,
+  shade_filetypes = {},
+  shade_terminals = true,
+  shading_factor = 5,
+  start_in_insert = true,
+  insert_mappings = true,
+  persist_size = true,
+  direction = "horizontal",
+  close_on_exit = true,
+  shell = vim.o.shell,
+  float_opts = {
+    border = "curved",
+    winblend = 0,
+    highlights = {
+      border = "Normal",
+      background = "Normal",
+    }
+  }
+})
+
+function _G.set_terminal_keymaps()
+  local opts = { buffer = 0 }
+  vim.keymap.set('t', '<C-esc>', [[<C-\><C-n>]], opts)
+  -- vim.keymap.set('t', 'jk', [[<C-\><C-n>]], opts)
+  vim.keymap.set('t', '<C-h>', [[<Cmd>wincmd h<CR>]], opts)
+  vim.keymap.set('t', '<C-j>', [[<Cmd>wincmd j<CR>]], opts)
+  vim.keymap.set('t', '<C-k>', [[<Cmd>wincmd k<CR>]], opts)
+  vim.keymap.set('t', '<C-l>', [[<Cmd>wincmd l<CR>]], opts)
+  vim.keymap.set('t', '<C-w>', [[<C-\><C-n><C-w>]], opts)
+end
+
+-- if you only want these mappings for toggle term use term://*toggleterm#* instead
+vim.cmd('autocmd! TermOpen term://* lua set_terminal_keymaps()')
+
+local Terminal = require("toggleterm.terminal").Terminal
+local lazygit  = Terminal:new({ cmd = "lazygit", hidden = true, direction = "float" })
+local htop     = Terminal:new({ cmd = "htop", hidden = true, direction = "float" })
+local node     = Terminal:new({ cmd = "node", hidden = true, direction = "float" })
+
+function _LAZYGIT_TOGGLE()
+  lazygit:toggle()
+end
+
+function _HTOP_TOGGLE()
+  htop:toggle()
+end
+
+function _NODE_INTERACTIVE_TOGGLE()
+  node:toggle()
+end
+
+vim.keymap.set("n", "<C-t>g", "<CMD>lua _LAZYGIT_TOGGLE()<CR>", { desc = "Toggle LazyGit" })
+vim.keymap.set("n", "<C-t>h", "<CMD>lua _HTOP_TOGGLE()<CR>", { desc = "Toggle htop" })
+vim.keymap.set("n", "<C-t>n", "<CMD>lua _NODE_INTERACTIVE_TOGGLE()<CR>", { desc = "Toggle Node Interactive" })
