@@ -1112,24 +1112,27 @@ local lazygit  = Terminal:new({
     }
   }
 })
-local htop     = Terminal:new({
-  cmd = "htop",
+local top      = Terminal:new({
+  cmd = "gotop",
   hidden = true,
   direction = "float",
+  close_on_exit = true,
+  start_in_insert = true,
 })
 local node     = Terminal:new({
   cmd = "node",
   hidden = true,
   direction = "float",
   close_on_exit = true,
+  start_in_insert = true,
 })
 
 function _LAZYGIT_TOGGLE()
   lazygit:toggle()
 end
 
-function _HTOP_TOGGLE()
-  htop:toggle()
+function _TOP_TOGGLE()
+  top:toggle()
 end
 
 function _NODE_INTERACTIVE_TOGGLE()
@@ -1137,5 +1140,5 @@ function _NODE_INTERACTIVE_TOGGLE()
 end
 
 vim.keymap.set("n", "<C-t>g", "<CMD>lua _LAZYGIT_TOGGLE()<CR>", { desc = "Toggle LazyGit" })
-vim.keymap.set("n", "<C-t>h", "<CMD>lua _HTOP_TOGGLE()<CR>", { desc = "Toggle htop" })
+vim.keymap.set("n", "<C-t>t", "<CMD>lua _TOP_TOGGLE()<CR>", { desc = "Toggle htop" })
 vim.keymap.set("n", "<C-t>n", "<CMD>lua _NODE_INTERACTIVE_TOGGLE()<CR>", { desc = "Toggle Node Interactive" })
