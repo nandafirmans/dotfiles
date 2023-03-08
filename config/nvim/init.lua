@@ -153,7 +153,10 @@ require("packer").startup(function(use)
   })
 
   -- CursorLine
-  use({ "yamatsum/nvim-cursorline" })
+  -- use({ "yamatsum/nvim-cursorline" })
+
+  -- VimIlluminate
+  use({ "RRethy/vim-illuminate" })
 
   -- ToggleTerm
   use({ "akinsho/toggleterm.nvim", tag = '*' })
@@ -1020,16 +1023,6 @@ require("nvim-autopairs").setup({
   disable_filetype = { "TelescopePrompt", "vim" },
 })
 
--- CursorLine
-require('nvim-cursorline').setup {
-  cursorline = { enable = false },
-  cursorword = {
-    enable = true,
-    min_length = 3,
-    hl = { bold = true },
-  }
-}
-
 -- ToggleTerm
 local defaultToggleTermConfig = {
   direction = "float",
@@ -1141,4 +1134,5 @@ end
 
 vim.keymap.set("n", "<C-t>g", "<CMD>lua _LAZYGIT_TOGGLE()<CR>", { desc = "Toggle LazyGit" })
 vim.keymap.set("n", "<C-t>t", "<CMD>lua _TOP_TOGGLE()<CR>", { desc = "Toggle htop" })
+vim.keymap.set("n", "<C-t>n", "<CMD>lua _NODE_INTERACTIVE_TOGGLE()<CR>", { desc = "Toggle Node Interactive" })
 vim.keymap.set("n", "<C-t>n", "<CMD>lua _NODE_INTERACTIVE_TOGGLE()<CR>", { desc = "Toggle Node Interactive" })
