@@ -1031,9 +1031,9 @@ require('nvim-cursorline').setup {
 }
 
 -- ToggleTerm
-require("toggleterm").setup({
-  size = 15,
-  open_mapping = [[<A-t>]],
+local defaultToggleTermConfig = {
+  direction = "float",
+  close_on_exit = true,
   hide_numbers = true,
   shade_filetypes = {},
   shade_terminals = true,
@@ -1041,8 +1041,6 @@ require("toggleterm").setup({
   start_in_insert = true,
   insert_mappings = true,
   persist_size = true,
-  direction = "float",
-  close_on_exit = true,
   shell = vim.o.shell,
   float_opts = {
     border = "curved",
@@ -1052,6 +1050,12 @@ require("toggleterm").setup({
       background = "Normal",
     }
   }
+}
+
+require("toggleterm").setup({
+  size = 15,
+  open_mapping = [[<A-t>]],
+  unpack(defaultToggleTermConfig)
 })
 
 function _G.set_terminal_keymaps()
@@ -1069,9 +1073,9 @@ end
 vim.cmd('autocmd! TermOpen term://* lua set_terminal_keymaps()')
 
 local Terminal = require("toggleterm.terminal").Terminal
-local lazygit  = Terminal:new({ cmd = "lazygit", hidden = true, direction = "float" })
-local htop     = Terminal:new({ cmd = "htop", hidden = true, direction = "float" })
-local node     = Terminal:new({ cmd = "node", hidden = true, direction = "float" })
+local lazygit  = Terminal:new({ cmd = "lazygit", hidden = true, unpack(defaultToggleTermConfig) })
+local htop     = Terminal:new({ cmd = "htop", hidden = true, unpack(defaultToggleTermConfig) })
+local node     = Terminal:new({ cmd = "node", hidden = true, unpack(defaultToggleTermConfig) })
 
 function _LAZYGIT_TOGGLE()
   lazygit:toggle()
