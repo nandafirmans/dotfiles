@@ -310,7 +310,7 @@ require("monokai-pro").setup({
   terminal_colors = true,
   devicons = true, -- highlight the icons of `nvim-web-devicons`
   italic_comments = true,
-  filter = "spectrum", -- classic | octagon | pro | machine | ristretto | spectrum
+  filter = "octagon", -- classic | octagon | pro | machine | ristretto | spectrum
 })
 
 -- Set colorscheme
@@ -441,13 +441,6 @@ require("gitsigns").setup({
     changedelete = { text = "~" },
   },
 })
-
--- Flutter
-require("flutter-tools").setup {}
--- vim.api.nvim_create_autocmd("BufEnter", {
---   pattern = "*.dart",
---   command = "silent! IndentBlanklineDisable | silent! IndentBlanklineEnable"
--- })
 
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
@@ -848,6 +841,20 @@ null_ls.setup({
     -- null_ls.builtins.completion.tags,
   },
 })
+
+
+-- Flutter
+require("flutter-tools").setup({
+  lsp = {
+    capabilities = capabilities,
+    on_attach = on_attach,
+  }
+})
+-- vim.api.nvim_create_autocmd("BufEnter", {
+--   pattern = "*.dart",
+--   command = "silent! IndentBlanklineDisable | silent! IndentBlanklineEnable"
+-- })
+
 
 -- Disable TS Formatting
 require("lspconfig").tsserver.setup({
