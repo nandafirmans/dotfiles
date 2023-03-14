@@ -11,7 +11,6 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-
 -- Set <space> as the leader key
 -- See `:help mapleader`
 --  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
@@ -184,7 +183,17 @@ require("lazy").setup({
   { "adrian5/oceanic-next-vim" },
   { "nlknguyen/papercolor-theme" },
   { "nonetallt/vim-neon-dark" },
-  { "loctvl842/monokai-pro.nvim" },
+  {
+    "loctvl842/monokai-pro.nvim",
+    config = function()
+      require("monokai-pro").setup({
+        terminal_colors = true,
+        devicons = true,    -- highlight the icons of `nvim-web-devicons`
+        italic_comments = true,
+        filter = "octagon", -- classic | octagon | pro | machine | ristretto | spectrum
+      })
+    end
+  },
   {
     'uloco/bluloco.nvim',
     dependencies = { 'rktjmp/lush.nvim' },
@@ -218,19 +227,7 @@ require("lazy").setup({
 
 })
 
--- Automatically source and re-compile packer whenever you save this init.lua
-local packer_group = vim.api.nvim_create_augroup("Packer", { clear = true })
-vim.api.nvim_create_autocmd("BufWritePost", {
-  command = "source <afile> | silent! LspStop | silent! LspStart | PackerCompile",
-  group = packer_group,
-  pattern = vim.fn.expand("$MYVIMRC"),
-})
-
 -- [[ Setting options ]]
--- See `:help vim.o`
-
--- My Config
--- vim.o.relativenumber = true
 vim.o.autoindent = true
 vim.o.smartindent = true
 vim.o.expandtab = true
@@ -284,16 +281,8 @@ vim.o.smartcase = true
 vim.o.updatetime = 250
 vim.wo.signcolumn = "yes"
 
--- Monokai Pro
-require("monokai-pro").setup({
-  terminal_colors = true,
-  devicons = true,    -- highlight the icons of `nvim-web-devicons`
-  italic_comments = true,
-  filter = "octagon", -- classic | octagon | pro | machine | ristretto | spectrum
-})
-
 -- Set colorscheme
-vim.cmd([[colorscheme monokai-pro]])
+vim.cmd([[colorscheme bluloco-dark]])
 vim.o.termguicolors = true
 
 -- Set completeopt to have a better completion experience
@@ -396,6 +385,7 @@ lualine.setup({
   },
   sections = {
     lualine_b = {
+      'branch', 'diff', 'diagnostics',
       {
         "macro-recording",
         fmt = show_macro_recording
@@ -1019,7 +1009,7 @@ require('fine-cmdline').setup({
   },
 })
 vim.o.cmdheight = 0
-vim.keymap.set({ "n", "v" }, ":", "<Esc><Cmd>FineCmdline<CR>", { noremap = true })
+vim.keymap.set({ "n" }, ":", "<Esc><Cmd>FineCmdline<CR>", { noremap = true })
 
 -- Searchbox
 require('searchbox').setup({
@@ -1159,5 +1149,4 @@ end
 
 vim.keymap.set("n", "<C-t>g", "<CMD>lua _LAZYGIT_TOGGLE()<CR>", { desc = "Toggle LazyGit" })
 vim.keymap.set("n", "<C-t>t", "<CMD>lua _TOP_TOGGLE()<CR>", { desc = "Toggle htop" })
-vim.keymap.set("n", "<C-t>n", "<CMD>lua _NODE_INTERACTIVE_TOGGLE()<CR>", { desc = "Toggle Node Interactive" })
 vim.keymap.set("n", "<C-t>n", "<CMD>lua _NODE_INTERACTIVE_TOGGLE()<CR>", { desc = "Toggle Node Interactive" })
