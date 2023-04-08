@@ -1,6 +1,18 @@
 #! /bin/sh
 
-bspc monitor -d 1 2 3 4 5
+# monitor setting
+INTERNAL_MONITOR="eDP-1"
+EXTERNAL_MONITOR="DP-1"
+if [ "$(xrandr -q | grep ' connected ' | awk '{print$1}' | grep -Fx $EXTERNAL_MONITOR)" = "$EXTERNAL_MONITOR" ] 
+then 
+  xrandr --output "$INTERNAL_MONITOR" --primary --mode 2880x1920 --rate 60.28 --scale 0.5x0.5 --output "$EXTERNAL_MONITOR" --mode 1920x1080 --rate 60.00 --scale 1x1 --above eDP-1 
+  bspc monitor "$INTERNAL_MONITOR" -d  6 7 8 9 10
+  bspc monitor "$EXTERNAL_MONITOR" -d 1 2 3 4 5
+  bspc wm -O "$EXTERNAL_MONITOR" "$INTERNAL_MONITOR"
+else 
+  xrandr --output "$INTERNAL_MONITOR" --primary --mode 2880x1920 --scale 0.5x0.5 --rate 60.28 
+  bspc monitor -d 1 2 3 4 5 6 7 8 9 10
+fi
 
 bspc config border_width         3
 bspc config active_border_color \#FFFFFF
