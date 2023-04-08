@@ -16,7 +16,7 @@ super + slash
 
 # program launcher
 super + @space
-	/home/nandafirmans/.config/polybar/cuts/scripts/launcher.sh
+	/home/nandafirmans/.config/polybar/material/scripts/launcher.sh
 
 # screenshot
 super + shift + s
@@ -32,7 +32,7 @@ super + shift + x
 
 # power menu
 super + shift + p
-	/home/nandafirmans/.config/polybar/cuts/scripts/powermenu.sh
+	/home/nandafirmans/.config/polybar/material/scripts/powermenu.sh
 
 # Reload sxhkdrc
 super + shift + r

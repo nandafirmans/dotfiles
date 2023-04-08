@@ -25,3 +25,6 @@
 [submodule "sources/i3lock-color"]
 	path = sources/i3lock-color
 	url = https://github.com/Raymo111/i3lock-color
+[submodule "sources/betterlockscreen"]
+	path = sources/betterlockscreen
+	url = git@github.com:betterlockscreen/betterlockscreen.git
