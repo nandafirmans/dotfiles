@@ -1,0 +1,98 @@
+* {
+  border: none;
+  border-radius: 0;
+  font-family: UbuntuMono Nerd Font, monospace;
+  font-weight: bold;
+  font-size: 14.5px;
+  min-height: 0;
+}
+
+window#waybar {
+  background: rgba(30, 30, 46, 0.9);
+  color: #cdd6f4;
+}
+
+tooltip {
+  background: #1e1e2e;
+  border-radius: 10px;
+  border-width: 2px;
+  border-style: solid;
+  border-color: #11111b;
+}
+
+#workspaces button {
+  padding: 5px;
+  color: #505270;
+  margin-right: 5px;
+  margin-top: 2px;
+  margin-bottom: 1px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+#workspaces button.active {
+  color: #5a97ff;
+}
+
+#workspaces button.focused {
+  color: #eba0ac;
+}
+
+#workspaces button.urgent {
+  color: #a6e3a1;
+}
+
+#workspaces button:hover {
+  color: #8e90ad;
+  background: transparent;
+}
+
+/* #workspaces button { */
+/*   padding: 5px; */
+/*   color: #cdd6f4; */
+/*   margin-right: 5px; */
+/*   margin-top: 2px; */
+/*   margin-bottom: 1px; */
+/*   font-size: 13.5px; */
+/*   font-weight: bold; */
+/* } */
+/* #workspaces button.active { */
+/*   color: #1e1e2e; */
+/*   background: #cdd6f4; */
+/* } */
+/* #workspaces button.focused { */
+/*   color: #a6adc8; */
+/*   background: #eba0ac; */
+/* } */
+/* #workspaces button.urgent { */
+/*   color: #11111b; */
+/*   background: #a6e3a1; */
+/* } */
+/* #workspaces button:hover { */
+/*   background: #11111b; */
+/*   color: #cdd6f4; */
+/* } */
+
+#window {
+  margin-right: 60px;
+}
+
+#custom-language,
+#custom-updates,
+#custom-caffeine,
+#custom-weather,
+#window,
+#clock,
+#battery,
+#pulseaudio,
+#network,
+#workspaces,
+#tray,
+#backlight,
+#memory,
+#temperature,
+#disk {
+  padding: 0px 10px;
+  margin-top: -2px;
+  margin-bottom: 2px;
+}

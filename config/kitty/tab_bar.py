@@ -129,9 +129,9 @@ def _redraw_tab_bar(_):
 
 def get_battery_cells() -> list:
     try:
-        with open("/sys/class/power_supply/BAT1/status", "r") as f:
+        with open("/sys/class/power_supply/BAT0/status", "r") as f:
             status = f.read()
-        with open("/sys/class/power_supply/BAT1/capacity", "r") as f:
+        with open("/sys/class/power_supply/BAT0/capacity", "r") as f:
             percent = int(f.read())
         if status == "Discharging\n":
             # TODO: declare the lambda once and don't repeat the code
