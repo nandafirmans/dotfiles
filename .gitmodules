@@ -28,3 +28,6 @@
 [submodule "sources/betterlockscreen"]
 	path = sources/betterlockscreen
 	url = git@github.com:betterlockscreen/betterlockscreen.git
+[submodule "config/tmux/tmux-resurrect"]
+	path = config/tmux/tmux-resurrect
+	url = git@github.com:tmux-plugins/tmux-resurrect.git
