@@ -4,14 +4,6 @@
 #         without any warranty.
 #         Copyright 2012— Gregory Pakosz (@gpakosz).
 
-# -- local options ----------------------------------------------------------
-
-setw -g mouse on
-
-unbind-key C-b
-set-option -g prefix C-z
-bind-key C-z send-prefix
-
 set -gu prefix2
 unbind C-a
 
@@ -78,41 +70,41 @@ tmux_conf_24b_colour=auto
 tmux_conf_theme=enabled
 
 # default theme
-# tmux_conf_theme_colour_1="#080808"    # dark gray
-# tmux_conf_theme_colour_2="#303030"    # gray
-# tmux_conf_theme_colour_3="#8a8a8a"    # light gray
-# tmux_conf_theme_colour_4="#00afff"    # light blue
-# tmux_conf_theme_colour_5="#ffff00"    # yellow
-# tmux_conf_theme_colour_6="#080808"    # dark gray
-# tmux_conf_theme_colour_7="#e4e4e4"    # white
-# tmux_conf_theme_colour_8="#080808"    # dark gray
-# tmux_conf_theme_colour_9="#ffff00"    # yellow
-# tmux_conf_theme_colour_10="#ff00af"   # pink
-# tmux_conf_theme_colour_11="#5fff00"   # green
-# tmux_conf_theme_colour_12="#8a8a8a"   # light gray
-# tmux_conf_theme_colour_13="#e4e4e4"   # white
-# tmux_conf_theme_colour_14="#080808"   # dark gray
-# tmux_conf_theme_colour_15="#080808"   # dark gray
-# tmux_conf_theme_colour_16="#d70000"   # red
-# tmux_conf_theme_colour_17="#e4e4e4"   # white
-
 tmux_conf_theme_colour_1="#080808"    # dark gray
-tmux_conf_theme_colour_2="#080808"    # gray
+tmux_conf_theme_colour_2="#303030"    # gray
 tmux_conf_theme_colour_3="#8a8a8a"    # light gray
 tmux_conf_theme_colour_4="#00afff"    # light blue
-tmux_conf_theme_colour_5="#FF8F40"    # yellow
+tmux_conf_theme_colour_5="#ffff00"    # yellow
 tmux_conf_theme_colour_6="#080808"    # dark gray
 tmux_conf_theme_colour_7="#e4e4e4"    # white
 tmux_conf_theme_colour_8="#080808"    # dark gray
-tmux_conf_theme_colour_9="#ffb454"    # yellow
-tmux_conf_theme_colour_10="#f26d78"   # pink
+tmux_conf_theme_colour_9="#ffff00"    # yellow
+tmux_conf_theme_colour_10="#ff00af"   # pink
 tmux_conf_theme_colour_11="#5fff00"   # green
 tmux_conf_theme_colour_12="#8a8a8a"   # light gray
 tmux_conf_theme_colour_13="#e4e4e4"   # white
 tmux_conf_theme_colour_14="#080808"   # dark gray
 tmux_conf_theme_colour_15="#080808"   # dark gray
-tmux_conf_theme_colour_16="#f26d78"   # red
+tmux_conf_theme_colour_16="#d70000"   # red
 tmux_conf_theme_colour_17="#e4e4e4"   # white
+
+# tmux_conf_theme_colour_1="#080808"    # dark gray
+# tmux_conf_theme_colour_2="#080808"    # gray
+# tmux_conf_theme_colour_3="#8a8a8a"    # light gray
+# tmux_conf_theme_colour_4="#00afff"    # light blue
+# tmux_conf_theme_colour_5="#FF8F40"    # yellow
+# tmux_conf_theme_colour_6="#080808"    # dark gray
+# tmux_conf_theme_colour_7="#e4e4e4"    # white
+# tmux_conf_theme_colour_8="#080808"    # dark gray
+# tmux_conf_theme_colour_9="#ffb454"    # yellow
+# tmux_conf_theme_colour_10="#f26d78"   # pink
+# tmux_conf_theme_colour_11="#5fff00"   # green
+# tmux_conf_theme_colour_12="#8a8a8a"   # light gray
+# tmux_conf_theme_colour_13="#e4e4e4"   # white
+# tmux_conf_theme_colour_14="#080808"   # dark gray
+# tmux_conf_theme_colour_15="#080808"   # dark gray
+# tmux_conf_theme_colour_16="#f26d78"   # red
+# tmux_conf_theme_colour_17="#e4e4e4"   # white
 
 # default theme (ansi)
 #tmux_conf_theme_colour_1="colour0"
@@ -243,14 +235,20 @@ tmux_conf_theme_window_status_last_bg="$tmux_conf_theme_colour_2"
 tmux_conf_theme_window_status_last_attr="none"
 
 # status left/right sections separators
-tmux_conf_theme_left_separator_main=""
-tmux_conf_theme_left_separator_sub="|"
-tmux_conf_theme_right_separator_main=""
-tmux_conf_theme_right_separator_sub="|"
+# tmux_conf_theme_left_separator_main=""
+# tmux_conf_theme_left_separator_sub="|"
+# tmux_conf_theme_right_separator_main=""
+# tmux_conf_theme_right_separator_sub="|"
 # tmux_conf_theme_left_separator_main='\uE0B8'  # /!\ you don't need to install Powerline
 # tmux_conf_theme_left_separator_sub='\uE0B9'   #   you only need fonts patched with
 # tmux_conf_theme_right_separator_main='\uE0BA' #   Powerline symbols or the standalone
 # tmux_conf_theme_right_separator_sub='\uE0BB'  #   PowerlineSymbols.otf font, see README.md
+
+
+tmux_conf_theme_left_separator_main='\uE0B0'  # /!\ you don't need to install Powerline
+tmux_conf_theme_left_separator_sub='\uE0B1'   #   you only need fonts patched with
+tmux_conf_theme_right_separator_main='\uE0B2' #   Powerline symbols or the standalone
+tmux_conf_theme_right_separator_sub='\uE0B3'  #   PowerlineSymbols.otf font, see README.md
 
 # status left/right content:
 #   - separate main sections with "|"
@@ -280,7 +278,9 @@ tmux_conf_theme_right_separator_sub="|"
 #     - #{username}
 #     - #{username_ssh}
 tmux_conf_theme_status_left=" ❐ #S | ↑#{?uptime_y, #{uptime_y}y,}#{?uptime_d, #{uptime_d}d,}#{?uptime_h, #{uptime_h}h,}#{?uptime_m, #{uptime_m}m,} "
-tmux_conf_theme_status_right=" #{prefix}#{mouse}#{pairing}#{synchronized}#{?battery_status,#{battery_status},}#{?battery_bar, #{battery_bar},}#{?battery_percentage, #{battery_percentage},} , %R , %d %b | #{username}#{root} | #{hostname} "
+# tmux_conf_theme_status_right=" #{prefix}#{mouse}#{pairing}#{synchronized}#{?battery_status,#{battery_status},}#{?battery_bar, #{battery_bar},}#{?battery_percentage, #{battery_percentage},} , #{cpu_icon} #{cpu_percentage}  #{ram_icon} #{ram_percentage} , %R , %d %b | #{username}#{root} | #{hostname} "
+# tmux_conf_theme_status_right="#{prefix}#{mouse}#{pairing}#{synchronized} #{?battery_status,#{battery_status},}#{?battery_bar,#{battery_bar},}#{?battery_percentage, #{battery_percentage},} , #(weather()) , %d %b - %R | #{username}#{root} | #{hostname} "
+tmux_conf_theme_status_right="#{prefix}#{mouse}#{pairing}#{synchronized} #{?battery_status,#{battery_status},}#{?battery_bar,#{battery_bar},}#{?battery_percentage, #{battery_percentage},} , %d %b - %R | #{username}#{root} | #{hostname} "
 
 # status left style
 tmux_conf_theme_status_left_fg="$tmux_conf_theme_colour_6,$tmux_conf_theme_colour_7,$tmux_conf_theme_colour_8"
@@ -299,13 +299,15 @@ tmux_conf_theme_pairing_bg="none"
 tmux_conf_theme_pairing_attr="none"
 
 # prefix indicator
-tmux_conf_theme_prefix="⌨"                  # U+2328
+# tmux_conf_theme_prefix="⌨"                  # U+2328
+tmux_conf_theme_prefix="󰌌"                  # U+2328
 tmux_conf_theme_prefix_fg="none"
 tmux_conf_theme_prefix_bg="none"
 tmux_conf_theme_prefix_attr="none"
 
 # mouse indicator
-tmux_conf_theme_mouse="↗"                   # U+2197
+# tmux_conf_theme_mouse="↗"                   # U+2197
+tmux_conf_theme_mouse="󰍽"                   # U+2197
 tmux_conf_theme_mouse_fg="none"
 tmux_conf_theme_mouse_bg="none"
 tmux_conf_theme_mouse_attr="none"
@@ -331,7 +333,8 @@ tmux_conf_battery_bar_symbol_empty="◻"
 # battery bar length (in number of symbols), possible values are:
 #   - auto
 #   - a number, e.g. 5
-tmux_conf_battery_bar_length="auto"
+# tmux_conf_battery_bar_length="auto"
+tmux_conf_battery_bar_length=10
 
 # battery bar palette, possible values are:
 #   - gradient (default)
@@ -355,10 +358,12 @@ tmux_conf_battery_vbar_palette="gradient"
 #tmux_conf_battery_vbar_palette="#d70000,#ff5f00,#5fff00"  # red, orange, green
 
 # symbols used to indicate whether battery is charging or discharging
-tmux_conf_battery_status_charging="↑"       # U+2191
-tmux_conf_battery_status_discharging="↓"    # U+2193
-#tmux_conf_battery_status_charging="🔌"     # U+1F50C
-#tmux_conf_battery_status_discharging="🔋"  # U+1F50B
+# tmux_conf_battery_status_charging="↑"       # U+2191
+# tmux_conf_battery_status_discharging="↓"    # U+2193
+# tmux_conf_battery_status_charging="🔌"     # U+1F50C
+# tmux_conf_battery_status_discharging="🔋"  # U+1F50B
+tmux_conf_battery_status_charging="⚡"     # U+1F50C
+tmux_conf_battery_status_discharging="🔋"  # U+1F50B
 
 # clock style (when you hit <prefix> + t)
 # you may want to use %I:%M %p in place of %R in tmux_conf_theme_status_right
@@ -383,13 +388,18 @@ tmux_conf_copy_to_os_clipboard=false
 # increase history size
 #set -g history-limit 10000
 
+# bind prefix to C-z
+# unbind-key C-b
+# set-option -g prefix C-z
+# bind-key C-z send-prefix
+
 # start with mouse mode enabled
-#set -g mouse on
+set -g mouse on
 
 # force Vi mode
 #   really you should export VISUAL or EDITOR environment variable, see manual
-#set -g status-keys vi
-#set -g mode-keys vi
+set -g status-keys vi
+set -g mode-keys vi
 
 # replace C-b by C-a instead of using both prefixes
 # set -gu prefix2
@@ -402,8 +412,17 @@ tmux_conf_copy_to_os_clipboard=false
 # bind c new-window -c '#{pane_current_path}' #!important
 
 # move status line to top
-#set -g status-position top
+# set -g status-position top
+set -g status-position bottom
 
+# Set prefix
+unbind C-b
+set -g prefix M-Space
+bind M-Space send-prefix
+
+# Alt a & d to navigate window
+bind -n M-a previous-window
+bind -n M-d next-window
 
 # -- tpm -----------------------------------------------------------------------
 
@@ -441,11 +460,16 @@ tmux_conf_uninstall_plugins_on_reload=true
 # to enable a plugin, use the 'set -g @plugin' syntax:
 # visit https://github.com/tmux-plugins for available plugins
 #set -g @plugin 'tmux-plugins/tmux-copycat'
-#set -g @plugin 'tmux-plugins/tmux-cpu'
-#set -g @plugin 'tmux-plugins/tmux-resurrect'
-#set -g @plugin 'tmux-plugins/tmux-continuum'
-#set -g @continuum-restore 'on'
+# set -g @plugin 'catppuccin/tmux'
+set -g @plugin 'tmux-plugins/tmux-cpu'
+set -g @plugin 'tmux-plugins/tmux-resurrect'
+set -g @plugin 'tmux-plugins/tmux-continuum'
+set -g @continuum-restore 'on'
+set -g @plugin 'christoomey/vim-tmux-navigator'
 
+# set -g @plugin 'xamut/tmux-weather'
+# set -g @tmux-weather-format '%c%t'
+# set -g @tmux-weather-interval 1
 
 # -- custom variables ----------------------------------------------------------
 
@@ -464,7 +488,7 @@ tmux_conf_uninstall_plugins_on_reload=true
 #
 # weather() {                                         # see https://github.com/chubin/wttr.in#one-line-output
 #   curl -f -s -m 2 'wttr.in?format=3' || printf '\n' # /!\ make sure curl is installed
-#   sleep 900                                         # sleep for 15 minutes, throttle network requests whatever the value of status-interval
+#   sleep 60                                         # sleep for 15 minutes, throttle network requests whatever the value of status-interval
 # }
 #
 # online() {
@@ -474,5 +498,3 @@ tmux_conf_uninstall_plugins_on_reload=true
 # "$@"
 # # /!\ do not remove the previous line
 
-# -- resurrect-tmux -----------------------------------------------------------
-run-shell ~/.config/tmux/tmux-resurrect/resurrect.tmux
