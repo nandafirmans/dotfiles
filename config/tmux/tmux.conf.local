@@ -69,24 +69,48 @@ tmux_conf_24b_colour=auto
 #   - tmux_conf_theme_synchronized
 tmux_conf_theme=enabled
 
+# # default theme
+# tmux_conf_theme_colour_1="#080808"    # dark gray
+# tmux_conf_theme_colour_2="#303030"    # gray
+# tmux_conf_theme_colour_3="#8a8a8a"    # light gray
+# tmux_conf_theme_colour_4="#00afff"    # light blue
+# tmux_conf_theme_colour_5="#ffff00"    # yellow
+# tmux_conf_theme_colour_6="#080808"    # dark gray
+# tmux_conf_theme_colour_7="#e4e4e4"    # white
+# tmux_conf_theme_colour_8="#080808"    # dark gray
+# tmux_conf_theme_colour_9="#ffff00"    # yellow
+# tmux_conf_theme_colour_10="#ff00af"   # pink
+# tmux_conf_theme_colour_11="#5fff00"   # green
+# tmux_conf_theme_colour_12="#8a8a8a"   # light gray
+# tmux_conf_theme_colour_13="#e4e4e4"   # white
+# tmux_conf_theme_colour_14="#080808"   # dark gray
+# tmux_conf_theme_colour_15="#080808"   # dark gray
+# tmux_conf_theme_colour_16="#d70000"   # red
+# tmux_conf_theme_colour_17="#e4e4e4"   # white
+#
 # default theme
-tmux_conf_theme_colour_1="#080808"    # dark gray
-tmux_conf_theme_colour_2="#303030"    # gray
-tmux_conf_theme_colour_3="#8a8a8a"    # light gray
-tmux_conf_theme_colour_4="#00afff"    # light blue
-tmux_conf_theme_colour_5="#ffff00"    # yellow
-tmux_conf_theme_colour_6="#080808"    # dark gray
-tmux_conf_theme_colour_7="#e4e4e4"    # white
-tmux_conf_theme_colour_8="#080808"    # dark gray
-tmux_conf_theme_colour_9="#ffff00"    # yellow
-tmux_conf_theme_colour_10="#ff00af"   # pink
-tmux_conf_theme_colour_11="#5fff00"   # green
-tmux_conf_theme_colour_12="#8a8a8a"   # light gray
-tmux_conf_theme_colour_13="#e4e4e4"   # white
-tmux_conf_theme_colour_14="#080808"   # dark gray
-tmux_conf_theme_colour_15="#080808"   # dark gray
-tmux_conf_theme_colour_16="#d70000"   # red
-tmux_conf_theme_colour_17="#e4e4e4"   # white
+tmux_conf_theme_colour_1="#080808"
+tmux_conf_theme_colour_2="#080808"
+tmux_conf_theme_colour_3="#8a8a8a"
+tmux_conf_theme_colour_4="#78A9FF"
+tmux_conf_theme_colour_5="#78A9FF"
+tmux_conf_theme_colour_6="#080808"
+tmux_conf_theme_colour_8="#080808"
+tmux_conf_theme_colour_9="#e4e4e4"
+tmux_conf_theme_colour_11="#5fff00"
+tmux_conf_theme_colour_12="#8a8a8a"
+tmux_conf_theme_colour_14="#080808"
+tmux_conf_theme_colour_15="#080808"
+tmux_conf_theme_colour_17="#e4e4e4"
+
+
+tmux_conf_theme_colour_7="#080808"
+tmux_conf_theme_colour_10="#78A9FF"
+
+tmux_conf_theme_colour_13="#080808"
+tmux_conf_theme_colour_16="#78A9FF"
+
+
 
 # tmux_conf_theme_colour_1="#080808"    # dark gray
 # tmux_conf_theme_colour_2="#080808"    # gray
@@ -235,20 +259,20 @@ tmux_conf_theme_window_status_last_bg="$tmux_conf_theme_colour_2"
 tmux_conf_theme_window_status_last_attr="none"
 
 # status left/right sections separators
-# tmux_conf_theme_left_separator_main=""
-# tmux_conf_theme_left_separator_sub="|"
-# tmux_conf_theme_right_separator_main=""
-# tmux_conf_theme_right_separator_sub="|"
+tmux_conf_theme_left_separator_main=""
+tmux_conf_theme_left_separator_sub="|"
+tmux_conf_theme_right_separator_main=""
+tmux_conf_theme_right_separator_sub="|"
+
 # tmux_conf_theme_left_separator_main='\uE0B8'  # /!\ you don't need to install Powerline
 # tmux_conf_theme_left_separator_sub='\uE0B9'   #   you only need fonts patched with
 # tmux_conf_theme_right_separator_main='\uE0BA' #   Powerline symbols or the standalone
 # tmux_conf_theme_right_separator_sub='\uE0BB'  #   PowerlineSymbols.otf font, see README.md
 
-
-tmux_conf_theme_left_separator_main='\uE0B0'  # /!\ you don't need to install Powerline
-tmux_conf_theme_left_separator_sub='\uE0B1'   #   you only need fonts patched with
-tmux_conf_theme_right_separator_main='\uE0B2' #   Powerline symbols or the standalone
-tmux_conf_theme_right_separator_sub='\uE0B3'  #   PowerlineSymbols.otf font, see README.md
+# tmux_conf_theme_left_separator_main='\uE0B0'  # /!\ you don't need to install Powerline
+# tmux_conf_theme_left_separator_sub='\uE0B1'   #   you only need fonts patched with
+# tmux_conf_theme_right_separator_main='\uE0B2' #   Powerline symbols or the standalone
+# tmux_conf_theme_right_separator_sub='\uE0B3'  #   PowerlineSymbols.otf font, see README.md
 
 # status left/right content:
 #   - separate main sections with "|"
@@ -278,9 +302,8 @@ tmux_conf_theme_right_separator_sub='\uE0B3'  #   PowerlineSymbols.otf font, see
 #     - #{username}
 #     - #{username_ssh}
 tmux_conf_theme_status_left=" ❐ #S | ↑#{?uptime_y, #{uptime_y}y,}#{?uptime_d, #{uptime_d}d,}#{?uptime_h, #{uptime_h}h,}#{?uptime_m, #{uptime_m}m,} "
-# tmux_conf_theme_status_right=" #{prefix}#{mouse}#{pairing}#{synchronized}#{?battery_status,#{battery_status},}#{?battery_bar, #{battery_bar},}#{?battery_percentage, #{battery_percentage},} , #{cpu_icon} #{cpu_percentage}  #{ram_icon} #{ram_percentage} , %R , %d %b | #{username}#{root} | #{hostname} "
-# tmux_conf_theme_status_right="#{prefix}#{mouse}#{pairing}#{synchronized} #{?battery_status,#{battery_status},}#{?battery_bar,#{battery_bar},}#{?battery_percentage, #{battery_percentage},} , #(weather()) , %d %b - %R | #{username}#{root} | #{hostname} "
-tmux_conf_theme_status_right="#{prefix}#{mouse}#{pairing}#{synchronized} #{?battery_status,#{battery_status},}#{?battery_bar,#{battery_bar},}#{?battery_percentage, #{battery_percentage},} , %d %b - %R | #{username}#{root} | #{hostname} "
+# tmux_conf_theme_status_right="#{prefix}#{mouse}#{pairing}#{synchronized} #{?battery_status,#{battery_status},}#{?battery_bar,#{battery_bar},}#{?battery_percentage, #{battery_percentage},} , #{weather} , %d %b - %R | #{username}#{root} | #{hostname} "
+tmux_conf_theme_status_right="#{prefix}#{mouse}#{pairing}#{synchronized} #{?battery_status,#{battery_status},}#{?battery_bar,#{battery_bar},}#{?battery_percentage, #{battery_percentage},} , %d %b - %R | #{username}#{root} | #{hostname}  "
 
 # status left style
 tmux_conf_theme_status_left_fg="$tmux_conf_theme_colour_6,$tmux_conf_theme_colour_7,$tmux_conf_theme_colour_8"
@@ -421,8 +444,14 @@ set -g prefix M-Space
 bind M-Space send-prefix
 
 # Alt a & d to navigate window
-bind -n M-a previous-window
-bind -n M-d next-window
+bind -n M-h previous-window
+bind -n M-l next-window
+
+bind S set status
+
+# disable bell
+# set -g bell-action none
+# set -g visual-bell on
 
 # -- tpm -----------------------------------------------------------------------
 
@@ -461,15 +490,17 @@ tmux_conf_uninstall_plugins_on_reload=true
 # visit https://github.com/tmux-plugins for available plugins
 #set -g @plugin 'tmux-plugins/tmux-copycat'
 # set -g @plugin 'catppuccin/tmux'
-set -g @plugin 'tmux-plugins/tmux-cpu'
+# set -g @plugin 'tmux-plugins/tmux-cpu'
+
 set -g @plugin 'tmux-plugins/tmux-resurrect'
 set -g @plugin 'tmux-plugins/tmux-continuum'
 set -g @continuum-restore 'on'
 set -g @plugin 'christoomey/vim-tmux-navigator'
 
 # set -g @plugin 'xamut/tmux-weather'
-# set -g @tmux-weather-format '%c%t'
-# set -g @tmux-weather-interval 1
+# set-option -g @tmux-weather-location 'Tangerang'
+# set-option -g @tmux-weather-format '3'
+# set-option -g @tmux-weather-interval 1
 
 # -- custom variables ----------------------------------------------------------
 
@@ -486,8 +517,8 @@ set -g @plugin 'christoomey/vim-tmux-navigator'
 #
 # # /!\ do not "uncomment" the functions: the leading "# " characters are needed
 #
-# weather() {                                         # see https://github.com/chubin/wttr.in#one-line-output
-#   curl -f -s -m 2 'wttr.in?format=3' || printf '\n' # /!\ make sure curl is installed
+# weather2() {                                         # see https://github.com/chubin/wttr.in#one-line-output
+#   curl -f -s -m 2 'wttr.in/Tangerang?format=3' || printf '\n' # /!\ make sure curl is installed
 #   sleep 60                                         # sleep for 15 minutes, throttle network requests whatever the value of status-interval
 # }
 #
